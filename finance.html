@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finances</title>
+
+    <link rel="stylesheet" href="finance.css">
+    <script src="finance.js" defer></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>Finances 💸</h1>
+        <p>Your bills, organized.</p>
+        
+        <a href="index.html" class="back-button">Back to Home</a>
+    </header>
+
+    <main>
+<div class="finance-layout">
+        <section class="finance-calendar">
+
+            <div class="calendar-navigation">
+                <button id="prev-month">❮</button>
+                <h2 id="month-year">October 2026</h2>
+                <button id="next-month">❯</button>
+            </div>
+            
+            <div class="jump-controls">
+    <label for="jump-date">Jump To:</label>
+    <input type="date" id="jump-date">
+    <button id="jump-button">Go</button>
+    <button id="today-button">Today</button>
+</div>
+
+            <div class="weekday-header">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+
+            <div id="calendar-grid"></div>
+
+        </section>
+
+<!-- FINANCE JR. — Upcoming Bills -->
+
+<section class="upcoming-bills">
+
+    <h2>Coming Up</h2>
+
+    <div id="upcoming-bills-list">
+        <p class="upcoming-empty">No upcoming bills.</p>
+    </div>
+
+</section>
+</div>
+    </main>
+
+
+<!-- FINANCE JR. — Add Bill Popup -->
+
+<div id="bill-popup" class="popup-overlay">
+
+    <div class="popup-content">
+
+        <h2 id="popup-date">Add Bill</h2>
+
+        <label for="bill-name">Bill Name:</label>
+        <input
+            type="text"
+            id="bill-name"
+            placeholder="Enter bill name..."
+        >
+
+<label for="bill-date">Due Date:</label>
+<input type="date" id="bill-date">
+
+
+<label for="bill-amount">Amount (Optional):</label>
+<input
+    type="number"
+    id="bill-amount"
+    placeholder="0.00"
+    min="0"
+    step="0.01"
+>
+
+<label for="bill-notes">Additional Details (Optional):</label>
+<textarea
+    id="bill-notes"
+    placeholder="Any extra details..."
+    rows="4"
+></textarea>
+
+
+        <label for="bill-repeat">Repeat:</label>
+        <select id="bill-repeat">
+            <option value="never">Never</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+        </select>
+
+        <div class="popup-buttons">
+            <button id="save-bill">Save Bill</button>
+            <button id="cancel-bill">Cancel</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FINANCE JR. — Bill Details Popup -->
+
+<div id="bill-details-popup" class="popup-overlay">
+
+    <div class="popup-content">
+
+        <h2 id="details-bill-name">Bill Details</h2>
+
+        
+<p id="details-bill-date"></p>
+<p id="details-bill-amount"></p>
+<p id="details-bill-repeat"></p>
+
+<div id="details-notes-section">
+    <strong>Additional Details:</strong>
+    <p id="details-bill-notes"></p>
+</div>
+
+
+        <div class="popup-buttons">
+            <button id="details-paid">Mark Paid</button>
+            <button id="details-edit">Edit</button>
+            <button id="details-delete">Delete</button>
+            <button id="details-close">Close</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FINANCE JR. — Delete Confirmation Popup -->
+
+<div id="delete-confirm-popup" class="popup-overlay">
+    <div class="popup-content">
+
+        <h2>Delete Bill?</h2>
+
+        <p id="delete-confirm-message"></p>
+
+        <p class="delete-warning">
+            This will remove the bill and all its recurring occurrences.
+        </p>
+
+        <div class="popup-buttons">
+            <button id="confirm-delete">Yes, Delete</button>
+            <button id="cancel-delete">Cancel</button>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+
+</html>

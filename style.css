@@ -1,0 +1,2304 @@
+body {
+    background-color: rgba(52, 95, 77, 0.473);
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    padding: 50px;
+    padding-bottom: 40px;
+}
+
+h1 {
+    color: rgb(10, 10, 10);
+}
+
+.form-group {
+    margin-top: 30px;
+}
+
+.rotation-section {
+    margin-top: 20px;
+}
+
+.weekday-header {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    max-width: 1200px;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    max-width: 1200px
+}
+
+#calendar > div {
+    border: 1px solid rgb(12, 12, 12);
+    min-height: 65px;
+}
+
+.month-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    max-width: 1200px;
+}
+
+#month-title {
+    font-size: 30px;
+
+}
+
+.date-number {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.date-number.today {
+    background-color: #30fac783;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-cell {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.calendar-cell.today {
+outline: 3px solid rgba(73, 117, 112, 0.9);
+background-color: rgba(255, 255, 255, 0.12);
+}
+.calendar-cell.weekend {
+    background-color: rgba(73, 117, 112, 0.30);
+}
+.calendar-cell:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+.calendar-cell button {
+    width: 30px;
+}
+
+.shiftButtons {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.calendar-cell button.selected {
+    font-weight: bold;
+    border: 3px solid black;
+}
+
+.calendar-cell.rotation-boundary {
+    background-color: rgba(225, 235, 120, 0.45);
+}
+
+.instruction-note {
+    background-color: #fff3a6;
+    width: 200px;
+    padding: 20px;
+    box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.20);
+    transform: rotate(10deg);
+    position: absolute;
+    top: 50px;
+    right: 60px;
+}
+
+.instruction-note::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #e8d87f;
+    box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+#rotation-warning {
+    color: #8b1e1e;
+    font-weight: bold;
+    margin-top: 8px;
+    max-width: 500px;
+}
+
+#rotation-status {
+    text-align: center;
+    font-weight: bold;
+    max-width: 1200px;
+    margin-bottom: -10px;
+}
+
+#clear-selection,
+#today-button {
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #fff3c4;
+    border: 1px solid rgb(114, 113, 113);
+}
+
+#clear-selection {
+    display: none;
+    padding: 5px 10px;
+border-radius: 10px;
+background-color: #fff3c4;
+border: 1px solid rgb(114, 113, 113);
+}
+
+#calendar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+#clear-selection:hover,
+#today-button:hover {
+    cursor: pointer;
+    background-color: #ffeaa0;
+}
+
+#calendar-layout {
+    position: relative;
+}
+
+#calendar-area {
+    width: 1200px;
+}
+
+#shift-legend {
+    margin-left: 25px;
+}
+#shift-legend-test {
+    position: absolute;
+    left: 1275px;
+    top: 430px;
+    background-color: #fff3c4;
+    padding: 6px 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+#shift-legend-test span:first-child {
+    border: 2px solid black;
+    padding: 1px 4px;
+    margin-right: 6px;
+}
+#shift-legend-test span:nth-of-type(3) {
+    border: 2px solid black;
+    padding: 1px 4px;
+    margin-right: 6px;
+}
+#shift-legend-test span:nth-of-type(5) {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 1px solid black;
+    margin-right: 6px;
+}
+.event-note {
+    background-color: #fff3a6;
+    width: 300px;
+    padding: 20px;
+    box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.20);
+    transform: rotate(-10deg);
+    position: absolute;
+    top: 430px;
+    right: 60px;
+}
+.event-note::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #e8d87f;
+    box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.15);
+}
+#event-popup {
+    display: none;
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: #fff3c4;
+    border: 1px solid rgba(73, 117, 112, 0.35);
+    border-radius: 8px;
+
+    padding: 20px;
+    width: 240px;
+
+    box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.25);
+}
+#save-event {
+    background-color: #497570bb;
+    color: white;
+    border: 1px rgb(114, 113, 113) solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+#cancel-event {
+    background-color: #e8e1d5;
+    border: 1px solid rgba(73, 117, 112, 0.35);
+    border-radius: 5px;
+    padding: 4px 10px;
+}
+#delete-event {
+    background-color: #5591b99c;
+    color: #3b383b;
+    border: 1px rgb(114, 113, 113) solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+#add-another-event {
+    background-color: #e6dff0;
+    color: #3b383b;
+    border: 1px rgb(114, 113, 113) solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+#event-input {
+    padding: 6px 8px;
+    border: 1px solid rgba(73, 117, 112, 0.45);
+    border-radius: 5px;
+}
+#event-repeat {
+    padding: 4px 6px;
+    border: 1px solid rgba(73, 117, 112, 0.45);
+    border-radius: 5px;
+}
+#event-popup button {
+    margin-top: 4px;
+}
+.personal-event {
+    font-size: 14px;
+    margin-top: 4px;
+    padding: 2px 5px;
+    background-color: #fff3c4;
+    border-radius: 4px;
+    width: fit-content;
+}
+.single-event {
+    background-color: #f3e8ff;
+}
+.monthly-event {
+    background-color: #b9dce8;
+}
+.yearly-event {
+    background-color: #f3aa92;
+}
+.repeat-option {
+    display: block;
+    margin: 10px 0;
+}
+#shift-legend-test br {
+    display: block;
+    content: "";
+    margin-bottom: 4px;
+}
+#event-chooser {
+    display: none;
+}
+.back-button {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: #fff3c4;
+    color: #343331;
+    text-decoration: none;
+    border: 1px solid #343331;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #f3e5a7;
+}
+@media (max-width: 950px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .instruction-note,
+    .event-note {
+        position: static;
+        transform: none;
+        width: auto;
+        margin: 20px 0;
+    }
+
+    #calendar-area {
+    width: 100%;
+}
+
+#calendar,
+.weekday-header,
+.month-navigation {
+    width: 100%;
+    max-width: 100%;
+}
+
+#shift-legend-test {
+    position: static;
+    width: auto;
+    margin: 20px 0;
+}
+
+.instruction-note::after,
+.event-note::after {
+    display: none;
+}
+
+}
+.event-notes-option {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+#event-notes {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    font: inherit;
+}
+#event-details-popup {
+    display: none;
+}
+#event-details-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+
+    background-color: #fff3bf;
+padding: 20px;
+border-radius: 8px;
+min-width: 280px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+body[data-theme="halloween"] {
+    background-image:
+    linear-gradient(rgba(22, 15, 30, 0.25), rgba(22, 15, 30, 0.25)),
+    url("images/october-background.png");
+    color: #f5e8d5;
+}
+body[data-theme="halloween"] .instruction-note,
+body[data-theme="halloween"] .event-note {
+    background-color: #C98255;
+    color: #292331;
+}
+body[data-theme="halloween"] .calendar-cell {
+    background-color: #352d3d9c;
+}
+
+body[data-theme="halloween"] .calendar-cell.weekend {
+    background-color: #49384a8e;
+}
+body[data-theme="halloween"] .calendar-cell.today {
+    outline: 3px solid #e6a06b60;
+    background-color: #49384a8e;
+}
+body[data-theme="halloween"] .calendar-cell .date-number {
+    color: #54B878;
+}
+
+/* Halloween today date circle */
+body[data-theme="halloween"] .calendar-cell.today .date-number {
+    background-color: #C98255;
+    color: #173D32;
+}
+body[data-theme="halloween"] .weekly-event {
+    background-color: #999b98;
+    color: #292331;
+}
+body[data-theme="halloween"] h1 {
+    color: #C98255;
+}
+body[data-theme="halloween"] #month-title {
+    color: #54B878;
+}
+body[data-theme="halloween"] .weekday-header {
+    color: #C98255;
+}
+body[data-theme="halloween"] #shift-legend-test {
+    background-color: #54B878;
+    color: #292331;
+}
+body[data-theme="halloween"] .back-button {
+    background-color: #54B878;
+    color: #292331;
+}
+body[data-theme="halloween"] .back-button:hover {
+    background-color: #479c66;
+    color: #292331;
+}
+body[data-theme="halloween"] #clear-selection {
+    background-color: #54B878;
+    color: #292331;
+}
+body[data-theme="halloween"] #today-button {
+    background-color: #54B878;
+    color: #292331;
+}
+body[data-theme="halloween"] #clear-selection:hover {
+    background-color: #479c66;
+    color: #292331;
+}
+body[data-theme="halloween"] #today-button:hover {
+    background-color: #479c66;
+    color: #292331;
+}
+body[data-theme="halloween"] .calendar-description {
+    color: #C98255;
+}
+body[data-theme="halloween"] .form-group {
+    color: #C98255;
+}
+body[data-theme="halloween"] #previous-month,
+body[data-theme="halloween"] #next-month {
+    background-color: #50B67B;
+    color: #292331;
+}
+body[data-theme="halloween"] #previous-month:hover,
+body[data-theme="halloween"] #next-month:hover {
+    background-color: #3D9363;
+}
+body[data-theme="halloween"] .shiftButtons button {
+    background-color: #C98255;
+    color: #292331;
+}
+body[data-theme="halloween"] #worker-name {
+    background-color: #E8B58F;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="halloween"] #start-date {
+    background-color: #E8B58F;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="halloween"] #rotation-status {
+    color: #292331;
+    font-weight: 600;
+    width: center;
+}
+body[data-theme="halloween"] .rotation-message {
+    background-color: #E8B58F;
+    color: #292331;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+/* Decorations stay hidden by default */
+.halloween-decor {
+    display: none;
+}
+
+/* Only show decorations during October */
+body[data-theme="halloween"] .halloween-decor {
+    display: block;
+    pointer-events: none;
+}
+body[data-theme="halloween"] .halloween-bat {
+    position: fixed;
+    top: 85px;
+    right: 300px;
+    width: 65px;
+    height: 35px;
+    color: #0a0909;
+    pointer-events: none;
+    z-index: 1;
+}
+body[data-theme="halloween"] .bat-two {
+    top: 65px;
+    right: 365px;
+    width: 40px;
+    height: 22px;
+    transform: rotate(12deg);
+}
+body[data-theme="halloween"] .single-event {
+    background-color: #54B878;
+    color: #292331;
+}
+body[data-theme="halloween"] .monthly-event {
+    background-color: #A998C8;
+    color: #292331;
+}
+body[data-theme="halloween"] .yearly-event {
+    background-color: #D8B56D;
+    color: #292331;
+}
+body[data-theme="halloween"] .bat-three {
+    top: 42px;
+    right: 420px;
+    width: 30px;
+    height: 17px;
+    transform: rotate(-12deg);
+}
+body[data-theme="halloween"] .bat-four {
+    top: 110px;
+    right: 390px;
+    width: 35px;
+    height: 20px;
+    transform: rotate(15deg);
+}
+body[data-theme="halloween"] .bat-five {
+    top: 130px;
+    right: 300px;
+    width: 30px;
+    height: 17px;
+    transform: rotate(-12deg);
+}
+.halloween-bottom-decor {
+    display: none;
+}
+
+body[data-theme="halloween"] .halloween-bottom-decor {
+    display: block;
+    position: relative;
+    height: 0;
+    pointer-events: none;
+}
+body[data-theme="halloween"] {
+    padding-bottom: 30px;
+}
+body[data-theme="halloween"] .halloween-bat-left {
+    position: fixed;
+    top: 375px;
+    left: 140px;
+    width: 38px;
+    height: 21px;
+    color: #111015;
+    pointer-events: none;
+    transform: rotate(-12deg);
+}
+body[data-theme="halloween"] .bat-seven {
+    top: 360px;
+    left: 110px;
+    width: 40px;
+    height: 23px;
+    transform: rotate(14deg);
+}
+body[data-theme="halloween"] .bat-eight {
+    top: 360px;
+    left: 195px;
+    width: 35px;
+    height: 20px;
+    transform: rotate(15deg);
+}
+body[data-theme="halloween"] .halloween-pumpkin {
+    position: fixed;
+    width: 65px;
+    height: 60px;
+    pointer-events: none;
+}
+
+body[data-theme="halloween"] .pumpkin-one {
+    bottom: 35px;
+    right: 65px;
+}
+body[data-theme="halloween"] .pumpkin-two {
+    top: 55px;
+    left: 210px;
+    width: 45px;
+    height: 42px;
+    transform: rotate(-12deg);
+}
+body[data-theme="halloween"] .calendar-cell.rotation-boundary {
+    background-color: rgba(226, 235, 120, 0.158);
+}
+body[data-theme="halloween"] #event-popup {
+    background-color: #614b63;
+    color: #F5E8D5;
+    border: 2px solid #C98255;
+}
+body[data-theme="halloween"] #event-notes {
+    background-color: #E8B58F;
+    color: #0a090a;
+    font-weight: 500;
+    border: 1px solid #C98255;
+}
+body[data-theme="halloween"] .chooser-never {
+    background-color: #54B878;
+    color: #292331;
+}
+
+body[data-theme="halloween"] .chooser-monthly {
+    background-color: #A998C8;
+    color: #292331;
+}
+
+body[data-theme="halloween"] .chooser-yearly {
+    background-color: #D8B56D;
+    color: #292331;
+}
+
+body[data-theme="halloween"] .chooser-weekly {
+    background-color: #A9A9A9;
+    color: #292331;
+}
+body[data-theme="halloween"] #event-chooser-list button {
+    border: none;
+    border-radius: 4px;
+    padding: 3px 6px;
+    margin: 2px;
+    cursor: pointer;
+}
+body[data-theme="halloween"] #cancel-event {
+    background-color: #c89bd4;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="halloween"] #add-another-event {
+    background-color: #54B878;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="halloween"] #event-input {
+    background-color: #E8B58F;
+    color: #292331;
+    border: 1px solid #C98255;
+    border-radius: 4px;
+}
+body[data-theme="halloween"] #event-repeat {
+    background-color: #C89BD4;
+    color: #292331;
+    border: 1px solid #A998C8;
+    border-radius: 4px;
+}
+body[data-theme="halloween"] #delete-event {
+    background-color: #999b98;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="halloween"] #event-details-popup {
+    background-color: #49384A;
+    color: #C98255;
+    border: 1px solid #C98255;
+}
+body[data-theme="halloween"] #edit-event-details {
+    background-color: #54B878;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="halloween"] #close-event-details {
+    background-color: #C89BD4;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+@media (max-width: 1000px) {
+    body[data-theme="halloween"] .halloween-decor,
+    body[data-theme="halloween"] .halloween-bottom-decor {
+        display: none;
+    }
+}
+body[data-theme="autumn"] {
+    background-color: #24382F;
+    color: #F3E7D3;
+}
+body[data-theme="autumn"] .instruction-note,
+body[data-theme="autumn"] .event-note {
+    background-color: #b89c50;
+    color: #241F19;
+}
+body[data-theme="autumn"] #shift-legend-test {
+    background-color: #B89C50;
+    color: #241F19;
+}
+body[data-theme="autumn"] .calendar-cell {
+    background: rgba(73, 55, 43, 0.589);
+}
+body[data-theme="autumn"] #month-title {
+    color: #A99B87;
+}
+body[data-theme="autumn"] .calendar-cell .date-number {
+    color: #A99B87;
+}
+body[data-theme="autumn"] .calendar-cell.weekend {
+    background: rgba(119, 118, 83, 0.548) !important;
+}
+body[data-theme="autumn"] .calendar-cell.today .date-number {
+    background-color: #A66B70;
+    color: #173D32;
+}
+body[data-theme="autumn"] .weekly-event {
+    background-color: #B89C50;
+    color: #292331;
+}
+    body[data-theme="autumn"] .monthly-event {
+    background-color: #B87950;
+    color: #292331;
+    }
+    body[data-theme="autumn"] .yearly-event {
+    background-color: #B398A8;
+    color: #292331;
+    }
+    body[data-theme="autumn"] .single-event {
+    background-color: #ecb95a;
+    color: #292331;
+    }
+    body[data-theme="autumn"] h1 {
+    color: #B89C50;
+}
+body[data-theme="autumn"] .shiftButtons button {
+    background-color: #A66B70;
+    color: #292331;
+}
+body[data-theme="autumn"] #previous-month,
+body[data-theme="autumn"] #next-month {
+    background-color: #A66B70;
+    color: #292331;
+}
+body[data-theme="autumn"] #previous-month:hover,
+body[data-theme="autumn"] #next-month:hover {
+    background-color: #86575b;
+}
+body[data-theme="autumn"] .weekday-header {
+    color: #A99B87;
+}
+body[data-theme="autumn"] #clear-selection {
+    background-color: #302820;
+    color: #A7BE9B;
+}
+body[data-theme="autumn"] #clear-selection:hover {
+    background-color: #1a1511;
+    color: #A7BE9B;
+}
+body[data-theme="autumn"] #today-button {
+    background-color: #302820;
+    color: #A7BE9B;
+}
+body[data-theme="autumn"] #today-button:hover {
+    background-color: #1a1511;
+    color: #A7BE9B;
+}
+body[data-theme="autumn"] .back-button {
+    background-color: #302820;
+    color: #A7BE9B;
+}
+body[data-theme="autumn"] .back-button:hover {
+    background-color: #1a1511;
+    color: #A7BE9B;
+}
+body[data-theme="autumn"] .calendar-description {
+    color: #B89C50;
+}
+body[data-theme="autumn"] #start-date {
+    background-color: #A99B87;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="autumn"] #worker-name {
+    background-color: #A99B87;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="autumn"] .rotation-message {
+    background-color: #A99B87;
+    color: #292331;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+body[data-theme="autumn"] #event-popup {
+    background-color: #51483F;
+    color: #F3E7D3;
+    border: 1px solid #B89C50;
+}
+body[data-theme="autumn"] #edit-event-details {
+    background-color: #A66B70;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="autumn"] #add-another-event {
+    background-color: #B398A8;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="autumn"] #cancel-event {
+    background-color: #A99B87;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="autumn"] #save-event {
+    background-color: #A66B70;
+    color: #241F19;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="autumn"] #event-input {
+    background-color: #E8D7B5;
+    color: #302820;
+    border: 1px solid #B89C50;
+    border-radius: 4px;
+}
+body[data-theme="autumn"] #delete-event {
+    background-color: #A8B99A;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="autumn"] #event-repeat {
+    background-color: #A99B87;
+    color: #302820;
+    border: 1px solid #B89C50;
+    border-radius: 4px;
+}
+body[data-theme="autumn"] #event-details-popup {
+    background-color: #51483F;
+    color: #F3E7D3;
+    border: 1px solid #B89C50;
+}
+body[data-theme="autumn"] #close-event-details {
+    background-color: #A99B87;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="autumn"] #event-notes {
+    background-color: #E8D7B5;
+    color: #302820;
+    border: 1px solid #B89C50;
+    border-radius: 4px;
+}
+body[data-theme="autumn"] .calendar-cell.rotation-boundary {
+    background-color: rgba(226, 235, 120, 0.158);
+}
+body[data-theme="autumn"] #event-chooser-list button {
+    border: none;
+    border-radius: 4px;
+    padding: 3px 6px;
+    margin: 2px;
+    cursor: pointer;
+}
+/* November decorations stay hidden by default */
+.autumn-decor {
+    display: none;
+}
+
+/* Only show decorations during November */
+body[data-theme="autumn"] .autumn-decor {
+    display: block;
+    pointer-events: none;
+}
+
+/* First little acorn */
+body[data-theme="autumn"] .acorn-one {
+    position: fixed;
+    top: 110px;
+    left: 270px;
+    width: 35px;
+    height: 45px;
+    transform: rotate(-15deg);
+}
+body[data-theme="autumn"] .acorn-two {
+    position: fixed;
+    top: 115px;
+    left: 300px;
+    width: 27px;
+    height: 36px;
+    transform: rotate(20deg);
+}
+body[data-theme="autumn"] .leaf-one {
+    position: fixed;
+    top: 115px;
+    right: 330px;
+    width: 80px;
+    height: 80px;
+    transform: rotate(25deg);
+    filter: brightness(0.75) saturate(0.75);
+}
+/* November background image */
+body[data-theme="autumn"] {
+    background-image:
+    linear-gradient(rgba(25, 30, 23, 0.35), rgba(25, 30, 23, 0.35)),
+    url("images/november-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+body[data-theme="autumn"] .calendar-cell.weekend {
+background-color: rgba(104, 116, 82, 0.685);
+}
+.autumn-decor {
+    display: none !important;
+}
+body[data-theme="christmas"] {
+    background-image:
+        linear-gradient(
+            rgba(15, 35, 32, 0.25),
+            rgba(15, 35, 32, 0.25)
+        ),
+        url("images/december-background.png");
+
+    color: #f5eee4;
+}
+body[data-theme="christmas"] .calendar-cell {
+    background: rgba(23, 61, 53, 0.62);
+}
+body[data-theme="christmas"] .calendar-cell.weekend {
+    background: rgba(112, 43, 49, 0.62);
+}
+body[data-theme="christmas"] .calendar-cell.today {
+    outline: 3px solid #F5EBDD;
+    background-color: #49384a8e;
+}
+body[data-theme="christmas"] .calendar-cell.today .date-number {
+    background-color: #F5EBDD;
+    color: #173D32;
+}
+body[data-theme="christmas"] .calendar-cell.today .date-number {
+    background-color: #D9B66F;
+    color: #173D32;
+}
+body[data-theme="christmas"] .shiftButtons button {
+    background-color: #D9B66F;
+    color: #292331;
+}
+body[data-theme="christmas"] #month-title {
+    color: #F5EBDD;
+}
+body[data-theme="christmas"] #shift-legend-test {
+    background-color: #D9B66F;
+    color: #241F19;
+}
+body[data-theme="christmas"] .instruction-note,
+body[data-theme="christmas"] .event-note {
+    background-color: #A66B70;
+    color: #241F19;
+}
+body[data-theme="christmas"] h1 {
+    color: #D9B66F;
+}
+body[data-theme="christmas"] #worker-name {
+    background-color: #D9B66F;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="christmas"] #start-date {
+    background-color: #D9B66F;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="christmas"] .calendar-description {
+    color: #F5EBDD;
+}
+body[data-theme="christmas"] .single-event {
+    background-color: #E8C9B5;
+    color: #292331;
+}
+body[data-theme="christmas"] .monthly-event {
+    background-color: #B7CBB5;
+    color: #292331;
+}
+body[data-theme="christmas"] .yearly-event {
+    background-color: #C77979;
+    color: #292331;
+}
+body[data-theme="christmas"] .weekly-event {
+    background-color: #FFF0B3;
+    color: #292331;
+}
+body[data-theme="christmas"] #event-details-popup {
+    background-color: #D9B66F;
+    color: #050505;
+    border: 1px solid #292416;
+}
+body[data-theme="christmas"] #event-popup {
+    background-color: #D9B66F;
+    color: #050505;
+    border: 2px solid #292416;
+}
+body[data-theme="christmas"] #clear-selection {
+    background-color: #963F43;
+    color: #070606;
+}
+body[data-theme="christmas"] #clear-selection:hover {
+    background-color: #6d2d30;
+    color: #070606;
+}
+body[data-theme="christmas"] #today-button {
+    background-color: #963F43;
+    color: #070606;
+}
+body[data-theme="christmas"] #today-button:hover {
+    background-color: #6d2d30;
+    color: #070606;
+}
+body[data-theme="christmas"] #rotation-status {
+    color: #D9B66F;
+    font-weight: 600;
+    width: center;
+}
+body[data-theme="christmas"] #close-event-details {
+    background-color: #266453;
+    color: #D9B66F;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="christmas"] #add-another-event {
+    background-color: #963f43be;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="christmas"] .back-button {
+    background-color: #963F43;
+    color: #070606;
+}
+body[data-theme="christmas"] .back-button:hover {
+    background-color: #6d2d30;
+    color: #070606;
+}
+body[data-theme="christmas"] #event-notes {
+    background-color: #963f43;
+    color: #050505;
+    font-weight: 500;
+    border: 1px solid #0a090a;
+}
+body[data-theme="christmas"] #cancel-event {
+    background-color: #173d32ab;
+    color: #0a090a;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="christmas"] #edit-event-details {
+    background-color: #963f43;
+    color: #D9B66F;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="christmas"] #event-repeat {
+    background-color: #A66B70;
+    color: #0a090a;
+    border: 1px solid #B89C50;
+    border-radius: 4px;
+}
+body[data-theme="christmas"] #event-input {
+    background-color: #A66B70;
+    color: #0a090a;
+    border: 1px solid #B89C50;
+    border-radius: 4px;
+}
+body[data-theme="christmas"] #save-event {
+    background-color: #A66B70;
+    color: #241F19;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="christmas"] .calendar-cell.rotation-boundary {
+    background-color: #b89c50be;
+}
+body[data-theme="christmas"] .christmas-sticky-tree {
+    width: 25px;
+    height: 32px;
+}
+.christmas-sticky-tree {
+    display: none;
+}
+
+body[data-theme="christmas"] .christmas-sticky-tree {
+    display: block;
+}
+body[data-theme="christmas"] .instruction-note::after,
+body[data-theme="christmas"] .event-note::after {
+    background-color: #be7b80;
+}
+body[data-theme="winter"] {
+    background-image: url("images/january-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/* Keep today's number circle, not the full-cell highlight */
+.calendar-cell.today,
+body[data-theme="halloween"] .calendar-cell.today,
+body[data-theme="christmas"] .calendar-cell.today {
+    outline: none;
+    background-color: transparent;
+}
+body[data-theme="winter"] .calendar-cell {
+    background-color: rgba(71, 125, 173, 0.60);
+}
+
+body[data-theme="winter"] .calendar-cell.weekend {
+    background-color: rgba(40, 84, 119, 0.60);
+}
+body[data-theme="winter"] .weekly-event {
+    background-color: #D7EAF5;
+    color: #292331;
+}
+    body[data-theme="winter"] .monthly-event {
+    background-color: #B8C9D6;
+    color: #292331;
+    }
+    body[data-theme="winter"] .yearly-event {
+    background-color: #B8A9DF;
+    color: #292331;
+    }
+    body[data-theme="winter"] .single-event {
+    background-color: #85C9E8;
+    color: #292331;
+    }
+    body[data-theme="winter"] .instruction-note,
+body[data-theme="winter"] .event-note {
+    background-color: #b8c9d659;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #292331;
+}
+body[data-theme="winter"] .instruction-note::after,
+body[data-theme="winter"] .event-note::after {
+    background-color: #9cabb6;
+}
+body[data-theme="winter"] #shift-legend-test {
+    background-color: #477dadb4;
+    color: #241F19;
+}
+body[data-theme="winter"] .back-button {
+    background-color: #b8a9dfc5;
+    color: #070606;
+}
+body[data-theme="winter"] .back-button:hover {
+    background-color: #9689b6d0;
+    color: #070606;
+}
+body[data-theme="winter"] #today-button {
+    background-color: #b8a9dfc5;
+    color: #070606;
+}
+body[data-theme="winter"] #today-button:hover {
+    background-color: #9689b6d0;
+    color: #070606;
+}
+body[data-theme="winter"] #clear-selection {
+    background-color: #b8a9dfc5;
+    color: #070606;
+}
+body[data-theme="winter"] #clear-selection:hover {
+    background-color: #9689b6d0;
+    color: #070606;
+}
+body[data-theme="winter"] h1 {
+    color: #C5E8F5;
+}
+body[data-theme="winter"] #rotation-status {
+    color: #C5E8F5;
+    font-weight: 600;
+    width: center;
+}
+body[data-theme="winter"] .shiftButtons button {
+    background-color: #B8A9DF;
+    color: #292331;
+}
+body[data-theme="winter"] .calendar-description {
+    color: #C5E8F5;
+}
+body[data-theme="winter"] #worker-name {
+    background-color: #B8A9DF;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="winter"] #start-date {
+    background-color: #B8A9DF;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="winter"] #event-popup {
+    background-color: #9cabb6ce;
+    color: #050505;
+    border: 2px solid #285477be;
+}
+body[data-theme="winter"] #event-details-popup {
+    background-color: #9cabb6ce;
+    color: #050505;
+    border: 1px solid #285477be;
+}
+body[data-theme="winter"] #edit-event-details {
+    background-color: #B8A9DF;
+    color: #050505;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="winter"] #close-event-details {
+    background-color: #85C9E8;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="winter"] #event-input {
+    background-color: #B8C9D6;
+    color: #0a090a;
+    border: 1px solid #285477be;
+    border-radius: 4px;
+}
+body[data-theme="winter"] .calendar-cell.rotation-boundary {
+    background-color: #85c9e896;
+}
+body[data-theme="winter"] .calendar-cell .date-number {
+    color: #0a0a0a;
+}
+body[data-theme="winter"] .form-group {
+    color: #C5E8F5;
+}
+body[data-theme="winter"] .calendar-cell.today .date-number {
+    background-color: #B8A9DF;
+    color: #0a0a0a;
+}
+body[data-theme="winter"] #event-repeat {
+    background-color: #B8A9DF;
+    color: #302820;
+    border: 1px solid #85C9E8;
+    border-radius: 4px;
+}
+body[data-theme="winter"] #event-notes {
+    background-color: #B8A9DF;
+    color: #0a090a;
+    font-weight: 500;
+    border: 1px solid #85C9E8;
+}
+body[data-theme="winter"] #cancel-event {
+    background-color: #85C9E8;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.winter-sticky-snowflake {
+    display: none;
+    width: 25px;
+    height: 25px;
+}
+
+body[data-theme="winter"] .winter-sticky-snowflake {
+    display: block;
+}
+body[data-theme="valentines"] {
+    background-image: url("images/february-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+body[data-theme="valentines"] .calendar-cell {
+    background-color: rgba(183, 110, 121, 0.60);
+}
+
+body[data-theme="valentines"] .calendar-cell.weekend {
+    background-color: rgba(132, 63, 88, 0.65);
+}
+body[data-theme="valentines"] .calendar-cell.today .date-number {
+    background-color: #ee688c;
+    color: #0a0a0a;
+}
+body[data-theme="valentines"] .calendar-cell.rotation-boundary {
+    background-color: #eea3aebd;
+}
+body[data-theme="valentines"] .calendar-cell .date-number {
+    color: #FFF3EE;
+}
+body[data-theme="valentines"] .weekday-header {
+    color: #FFF3EE;
+}
+body[data-theme="valentines"] h1 {
+    color: #FFF3EE;
+}
+body[data-theme="valentines"] .form-group {
+    color: #FFF3EE;
+}
+body[data-theme="valentines"] .calendar-description {
+    color: #FFF3EE;
+}
+body[data-theme="valentines"] .weekly-event {
+    background-color: #E8D3AA;
+    color: #292331;
+}
+    body[data-theme="valentines"] .monthly-event {
+    background-color: #D9A4B3;
+    color: #292331;
+    }
+    body[data-theme="valentines"] .yearly-event {
+    background-color: #C5B0D8;
+    color: #292331;
+    }
+    body[data-theme="valentines"] .single-event {
+    background-color: #EBC5CF;
+    color: #292331;
+    }
+    body[data-theme="valentines"] .instruction-note,
+body[data-theme="valentines"] .event-note {
+    background-color: #b76e798e;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #FFF3EE;
+}
+body[data-theme="valentines"] .instruction-note::after,
+body[data-theme="valentines"] .event-note::after {
+    background-color: #a0606a9f;
+}
+body[data-theme="valentines"] .shiftButtons button {
+    background-color: #C5B0D8;
+    color: #292331;
+}
+body[data-theme="valentines"] .back-button {
+    background-color: #EBC5CF;
+    color: #070606;
+}
+body[data-theme="valentines"] .back-button:hover {
+    background-color: #caaab2;
+    color: #070606;
+}
+body[data-theme="valentines"] #today-button {
+    background-color: #EBC5CF;
+    color: #070606;
+}
+body[data-theme="valentines"] #today-button:hover {
+    background-color: #caaab2;
+    color: #070606;
+}
+body[data-theme="valentines"] #clear-selection {
+    background-color: #EBC5CF;
+    color: #070606;
+}
+body[data-theme="valentines"] #clear-selection:hover {
+    background-color: #caaab2;
+    color: #070606;
+}
+body[data-theme="valentines"] #event-popup {
+    background-color: #d9a4b3c7;
+    color: #050505;
+    border: 2px solid #d6889e;
+}
+body[data-theme="valentines"] #event-notes {
+    background-color: #C5B0D8;
+    color: #0a090a;
+    font-weight: 500;
+    border: 1px solid #af9cc0;
+}
+body[data-theme="valentines"] #event-details-popup {
+    background-color: #d9a4b3c7;
+    color: #050505;
+    border: 1px solid #d6889e;
+}
+body[data-theme="valentines"] #edit-event-details {
+    background-color: #B8A9DF;
+    color: #050505;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="valentines"] #close-event-details {
+    background-color: #ad4e71c4;
+    color: #292331;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="valentines"] #add-another-event {
+    background-color: #ad4e71c4;
+    color: #292331;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="valentines"] #cancel-event {
+    background-color: #B8A9DF;
+    color: #141414;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="valentines"] #event-input {
+    background-color: #B8A9DF;
+    color: #0a090a;
+    border: 1px solid #9b8ebb;
+    border-radius: 4px;
+}
+body[data-theme="valentines"] #event-repeat {
+    background-color: #B8A9DF;
+    color: #302820;
+    border: 1px solid #9b8ebb;
+    border-radius: 4px;
+}
+body[data-theme="valentines"] #save-event {
+    background-color: #d383a4;
+    color: #241F19;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="valentines"] #delete-event {
+    background-color: #a272ac;
+    color: #141414;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="valentines"] #previous-month,
+body[data-theme="valentines"] #next-month {
+    background-color: #a272ac;
+    color: #080808;
+}
+body[data-theme="valentines"] #shift-legend-test {
+    background-color: #b76e79da;
+    color: #241F19;
+}
+body[data-theme="valentines"] #rotation-status {
+    color: #E8D3AA;
+    font-weight: 600;
+    width: center;
+}
+.valentine-sticky-heart {
+    display: none;
+    width: 25px;
+    height: 25px;
+}
+
+body[data-theme="valentines"] .valentine-sticky-heart {
+    display: block;
+}
+body[data-theme="stpatricks"] {
+    background-image: url("images/march-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+body[data-theme="stpatricks"] .calendar-cell {
+    background-color: rgba(73, 123, 80, 0.65);
+}
+
+body[data-theme="stpatricks"] .calendar-cell.weekend {
+    background-color: rgba(40, 89, 67, 0.60);
+}
+body[data-theme="stpatricks"] .calendar-cell.today .date-number {
+    background-color: #D5B66A;
+    color: #0a0a0a;
+}
+body[data-theme="stpatricks"] .calendar-cell.rotation-boundary {
+    background-color: #71816aa6;
+}
+body[data-theme="stpatricks"] .calendar-cell .date-number {
+    color: #B9CEAA;
+}
+body[data-theme="stpatricks"] .weekly-event {
+    background-color: #F4E4A6;
+    color: #292331;
+}
+    body[data-theme="stpatricks"] .monthly-event {
+    background-color: #91B58A;
+    color: #292331;
+    }
+    body[data-theme="stpatricks"] .yearly-event {
+    background-color: #8DAAB5;
+    color: #292331;
+    }
+    body[data-theme="stpatricks"] .single-event {
+    background-color: #D69A70;
+    color: #292331;
+    }
+    body[data-theme="stpatricks"] #month-title {
+    color: #f8f6f4;
+}
+body[data-theme="stpatricks"] .weekday-header {
+    color: #f8f6f4;
+}
+body[data-theme="stpatricks"] h1 {
+    color: #f8f6f4;
+}
+body[data-theme="stpatricks"] .form-group {
+    color: #f8f6f4;
+}
+body[data-theme="stpatricks"] .calendar-description {
+    color: #f8f6f4;
+}
+body[data-theme="stpatricks"] .shiftButtons button {
+    background-color: #D5B66A;
+    color: #0a0a0a;
+}
+body[data-theme="stpatricks"] .back-button {
+    background-color: #497B50;
+    color: #070606;
+}
+body[data-theme="stpatricks"] .back-button:hover {
+    background-color: #365c3b;
+    color: #070606;
+}
+body[data-theme="stpatricks"] #today-button {
+    background-color: #497B50;
+    color: #070606;
+}
+body[data-theme="stpatricks"] #today-button:hover {
+    background-color: #365c3b;
+    color: #070606;
+}
+body[data-theme="stpatricks"] #clear-selection {
+    background-color: #497B50;
+    color: #070606;
+}
+body[data-theme="stpatricks"] #clear-selection:hover {
+    background-color: #365c3b;
+    color: #070606;
+}
+body[data-theme="stpatricks"] .instruction-note,
+body[data-theme="stpatricks"] .event-note {
+    background-color: #b9ceaa98;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0e0d0d;
+}
+body[data-theme="stpatricks"] .instruction-note::after,
+body[data-theme="stpatricks"] .event-note::after {
+    background-color: #9daf90;
+}
+body[data-theme="stpatricks"] #shift-legend-test {
+    background-color: #b9ceaab6;
+    color: #241F19;
+}
+/* March sticky-note shamrocks */
+body[data-theme="stpatricks"] #previous-month,
+body[data-theme="stpatricks"] #next-month {
+    background-color: #D5B66A;
+    color: #080808;
+}
+body[data-theme="stpatricks"] #event-popup {
+    background-color: #b9ceaad7;
+    color: #050505;
+    border: 2px solid #66725d;
+}
+body[data-theme="stpatricks"] #event-notes {
+    background-color: #F1EBD8;
+    color: #0a090a;
+    font-weight: 500;
+    border: 1px solid #cec9b8;
+}
+body[data-theme="stpatricks"] #event-details-popup {
+    background-color: #b9ceaae0;
+    color: #050505;
+    border: 1px solid #66725d;
+}
+body[data-theme="stpatricks"] #start-date {
+    background-color: #B9CEAA;
+    color: #030303;
+    font-weight: 600;
+}
+body[data-theme="stpatricks"] #worker-name {
+    background-color: #B9CEAA;
+    color: #030303;
+    font-weight: 600;
+}
+body[data-theme="stpatricks"] #edit-event-details {
+    background-color: #D5B66A;
+    color: #292331;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="stpatricks"] #close-event-details {
+    background-color: #D5B66A;
+    color: #292331;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="stpatricks"] #add-another-event {
+    background-color: #D5B66A;
+    color: #292331;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="stpatricks"] #cancel-event {
+    background-color: #D5B66A;
+    color: #141414;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="stpatricks"] #rotation-status {
+    color: #F1EBD8;
+    font-weight: 600;
+    width: center;
+}
+body[data-theme="stpatricks"] #event-input {
+    background-color: #B9CEAA;
+    color: #0a090a;
+    border: 1px solid #93a387;
+    border-radius: 4px;
+}
+/* March - Repeat dropdown */
+body[data-theme="stpatricks"] #event-repeat {
+    background-color: #D5B66A;
+    color: #354D37;
+    border: 1px solid #497B50;
+}
+
+/* March - Delete Current Event button */
+body[data-theme="stpatricks"] #delete-event {
+    background-color: #7e966d;
+    color: #F1EBD8;
+    border: 1px solid #633D52;
+}
+.march-sticky-shamrock {
+    display: none;
+    width: 25px;
+    height: 25px;
+}
+body[data-theme="stpatricks"] .march-sticky-shamrock {
+    display: block;
+}
+body[data-theme="spring"] {
+    background-image: url("images/april-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+body[data-theme="spring"] .calendar-cell {
+    background-color: #e9b4a69a;
+}
+
+body[data-theme="spring"] .calendar-cell.weekend {
+    background-color: #b9a6cca8;
+}
+body[data-theme="spring"] .calendar-cell.today .date-number {
+    background-color: #F2D58A;
+    color: #0a0a0a;
+}
+body[data-theme="spring"] .calendar-cell.rotation-boundary {
+    background-color: #c9ddb88e;
+}
+body[data-theme="spring"] .calendar-cell .date-number {
+    color: #070607;
+}
+body[data-theme="spring"] .weekly-event {
+    background-color: #F6E4A8;
+    color: #292331;
+}
+    body[data-theme="spring"] .monthly-event {
+    background-color: #C9DDB8;
+    color: #292331;
+    }
+    body[data-theme="spring"] .yearly-event {
+    background-color: #D8C6EA;
+    color: #292331;
+    }
+    body[data-theme="spring"] .single-event {
+    background-color: #F5D1CB;
+    color: #292331;
+    }
+    body[data-theme="spring"] .instruction-note,
+body[data-theme="spring"] .event-note {
+    background-color: #d8b7c7a2;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0e0d0d;
+}
+body[data-theme="spring"] .instruction-note::after,
+body[data-theme="spring"] .event-note::after {
+    background-color: #d8b7c7ad;
+}
+body[data-theme="spring"] #shift-legend-test {
+    background-color: #d8b7c7cb;
+    color: #241F19;
+}
+body[data-theme="spring"] #rotation-status {
+    background: rgba(173, 116, 141, 0.88);
+    color: #FFF8ED;
+    padding: 8px 16px;
+    border-radius: 12px;
+    position: relative;
+    left: -290px;
+    display: block;
+    width: fit-content;
+    top: 5px;
+    margin: 0 auto;
+    margin: 0 auto;
+}
+body[data-theme="spring"] #event-details-popup {
+    background-color: rgba(173, 116, 141, 0.795);
+    color: #050505;
+    border: 1px solid #66725d;
+}
+body[data-theme="spring"] h1 {
+    background: rgba(173, 116, 141, 0.88);
+    color: #FFF8ED;
+    width: fit-content;
+    margin: 0 auto;
+    top: 5px;
+    padding: 8px 20px;
+    border-radius: 12px;
+    position: relative;
+    left: -767px;
+}
+body[data-theme="spring"] .calendar-description {
+    background: rgba(173, 116, 141, 0.88);
+    color: #FFF8ED;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 8px 16px;
+    border-radius: 12px;
+
+    position: relative;
+    left: -585px;
+    top: 7px;
+}
+body[data-theme="spring"] label[for="worker-name"],
+body[data-theme="spring"] label[for="start-date"] {
+    background: rgba(173, 116, 141, 0.88);
+    color: #FFF8ED;
+    padding: 4px 7px;
+    border-radius: 6px;
+}
+body[data-theme="spring"] .weekday-header {
+    color: #080808;
+}
+body[data-theme="spring"] #event-popup {
+    background-color: #f6ddd0e1;
+    color: #050505;
+    border: 2px solid #bdaba1;
+}
+body[data-theme="spring"] #event-notes {
+    background-color: #F1EBD8;
+    color: #0a090a;
+    font-weight: 500;
+    border: 1px solid #bdaba1;
+}
+body[data-theme="spring"] #event-details-popup {
+    background-color: #f6ddd0d7;
+    color: #050505;
+    border: 1px solid #bdaba1;
+}
+body[data-theme="spring"] #edit-event-details {
+    background-color: #ad748de8;
+    color: #050505;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="spring"] #close-event-details {
+    background-color: #b8c9a5e3;
+    color: #050505;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="spring"] #worker-name {
+    background-color: #B8C9A5;
+    color: #050505;
+    font-weight: 600;
+}
+body[data-theme="spring"] #start-date {
+    background-color: #B8C9A5;
+    color: #050505;
+    font-weight: 600;
+}
+/* April tulips - hidden by default */
+.spring-sticky-tulip {
+    display: none;
+    width: 28px;
+    height: 35px;
+}
+
+/* Only show during April's theme */
+body[data-theme="spring"] .spring-sticky-tulip {
+    display: block;
+}
+/* MAY — Strawberry Cream Soda */
+body[data-theme="early-summer"] {
+    background-image: url("images/may-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+body[data-theme="early-summer"] .calendar-cell {
+    background-color: #9faa709d;
+}
+
+body[data-theme="early-summer"] .calendar-cell.weekend {
+    background-color: #577c7794;
+}
+body[data-theme="early-summer"] .calendar-cell.today .date-number {
+    background-color: #D9AD55;
+    color: #0a0a0a;
+    text-shadow: 0 1px 2px rgba(35, 45, 36, 0.65)
+}
+body[data-theme="early-summer"] .calendar-cell.rotation-boundary {
+    background-color: #e8d3ac98;
+}
+body[data-theme="early-summer"] .calendar-cell .date-number {
+    color: #F5E8D0;
+}
+body[data-theme="early-summer"] .weekly-event {
+    background-color: #DCC58D;
+    color: #070607;
+}
+    body[data-theme="early-summer"] .monthly-event {
+    background-color: #AAB99A;
+    color: #070607;
+    }
+    body[data-theme="early-summer"] .yearly-event {
+    background-color: #91A9B3;
+    color: #070607;
+    }
+    body[data-theme="early-summer"] .single-event {
+    background-color: #C49A83;
+    color: #070607;
+    }
+    body[data-theme="early-summer"] h1 {
+    color: #F5E8D0;
+}
+body[data-theme="early-summer"] .form-group {
+    color: #F5E8D0;
+}
+body[data-theme="early-summer"] .calendar-description {
+    color: #F5E8D0;
+}
+body[data-theme="early-summer"] label[for="worker-name"],
+body[data-theme="early-summer"] label[for="start-date"] {
+    background: rgba(87, 124, 119, 0.719);
+    color: #F5E8D0;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+/* MAY — Calendar heading */
+body[data-theme="early-summer"] h1 {
+    background: rgba(87, 124, 119, 0.719);
+    color: #F5E8D0;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -785px;
+    top: 7px;
+}
+
+/* MAY — Calendar description */
+body[data-theme="early-summer"] .calendar-description {
+    background: rgba(87, 124, 119, 0.719);
+    color: #F5E8D0;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -598px;
+    top: 12px;
+}
+body[data-theme="early-summer"] #worker-name {
+    background-color: #F5E8D0;
+    color: #34464D;
+    font-weight: 600;
+}
+body[data-theme="early-summer"] #start-date {
+    background-color: #F5E8D0;
+    color: #34464D;
+    font-weight: 600;
+}
+body[data-theme="early-summer"] .back-button {
+    background: #E8D19A;
+    color: #34464D;
+}
+body[data-theme="early-summer"] .back-button:hover {
+    background: #c5b182;
+    color: #34464D;
+}
+body[data-theme="early-summer"] #today-button {
+    background: #E8D19A;
+    color: #34464D;
+}
+body[data-theme="early-summer"] #today-button:hover {
+    background: #c5b182;
+    color: #34464D;
+}
+body[data-theme="early-summer"] #clear-selection {
+    background: #E8D19A;
+    color: #34464D;
+}
+body[data-theme="early-summer"] #clear-selection:hover {
+    background: #c5b182;
+    color: #34464D;
+}
+body[data-theme="early-summer"] .instruction-note,
+body[data-theme="early-summer"] .event-note {
+    background-color: #f2e3beb6;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0e0d0d;
+}
+body[data-theme="early-summer"] .instruction-note::after,
+body[data-theme="early-summer"] .event-note::after {
+    background-color: #d1b579b6;
+}
+body[data-theme="early-summer"] #shift-legend-test {
+    background-color: #f2e3beb7;
+    color: #241F19;
+}
+body[data-theme="early-summer"] .shiftButtons button {
+    background-color: #c5b182;
+    color: #34464D;
+}
+body[data-theme="early-summer"] #previous-month,
+body[data-theme="early-summer"] #next-month {
+    background-color: #c5b182;
+    color: #34464D;
+}
+body[data-theme="early-summer"] #cancel-event {
+    background-color: #E8D9B9;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="early-summer"] #add-another-event {
+    background-color: #91A9B3;
+    color: #292331;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="early-summer"] #event-input {
+    background-color: #FAF3DF;
+    color: #292331;
+    border: 1px solid #b9b4a4;
+    border-radius: 4px;
+}
+body[data-theme="early-summer"] #event-repeat {
+    background-color: #72978A;
+    color: #292331;
+    border: 1px solid #FFF8E8;
+    border-radius: 4px;
+}
+body[data-theme="early-summer"] #delete-event {
+    background-color: #B97866;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="early-summer"] #event-details-popup {
+    background-color: #FFF2C5;
+    color: #141414;
+    border: 1px solid #b9b4a4;
+}
+body[data-theme="early-summer"] #edit-event-details {
+    background-color: #72978A;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="early-summer"] #close-event-details {
+    background-color: #E8D9B9;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+/* MAY — Sunflower icons hidden by default */
+.may-sticky-sunflower {
+    display: none;
+    width: 28px;
+    height: 35px;
+}
+
+/* Only visible during May */
+body[data-theme="early-summer"] .may-sticky-sunflower {
+    display: block;
+}
+body[data-theme="early-summer"] #rotation-status {
+    background: #e8d9b9d0;
+    color: #98703D;
+    padding: 8px 16px;
+    border-radius: 12px;
+    position: relative;
+    left: -290px;
+    display: block;
+    width: fit-content;
+    top: 5px;
+    margin: 0 auto;
+    margin: 0 auto;
+}
+/* MAY — Weekday header strip */
+body[data-theme="early-summer"] .weekday-header {
+    background: #d1b579b6;
+    color: #34464D;
+    border-radius: 6px;
+    padding: 6px 0;
+}
+
+/* MAY — Individual weekday lettering */
+body[data-theme="early-summer"] .weekday-header > * {
+    color: #34464D;
+}
+/* JUNE — Summer Evening Poolside */
+body[data-theme="summer"] {
+    background-image: url("images/june-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+body[data-theme="summer"] .calendar-cell {
+    background-color: #568f9194;
+}
+
+body[data-theme="summer"] .calendar-cell.weekend {
+    background-color: #376f788e;
+}
+body[data-theme="summer"] .calendar-cell.today .date-number {
+    background-color: #D88C75;
+    color: #0a0a0a;
+    text-shadow: 0 1px 2px rgba(35, 45, 36, 0.65)
+}
+body[data-theme="summer"] .calendar-cell.rotation-boundary {
+    background-color: #a9cbc19f;
+}
+body[data-theme="summer"] .calendar-cell .date-number {
+    color: #F5E8D0;
+}
+body[data-theme="summer"] .weekly-event {
+    background-color: #E7D39E;
+    color: #070607;
+}
+    body[data-theme="summer"] .monthly-event {
+    background-color: #A8CDBE;
+    color: #070607;
+    }
+    body[data-theme="summer"] .yearly-event {
+    background-color: #9BAEC9;
+    color: #070607;
+    }
+    body[data-theme="summer"] .single-event {
+    background-color: #D6A18B;
+    color: #070607;
+    }
+    body[data-theme="summer"] .back-button {
+    background: #E9D4AD;
+    color: #294C53;
+}
+body[data-theme="summer"] .back-button:hover {
+    background: #D7AC69;
+    color: #294C53;
+}
+body[data-theme="summer"] #today-button {
+    background: #E9D4AD;
+    color: #294C53;
+}
+body[data-theme="summer"] #today-button:hover {
+    background: #D7AC69;
+    color: #294C53;
+}
+body[data-theme="summer"] #clear-selection {
+    background: #E9D4AD;
+    color: #294C53;
+}
+body[data-theme="summer"] #clear-selection:hover {
+    background: #D7AC69;
+    color: #294C53;;
+}
+body[data-theme="summer"] .instruction-note,
+body[data-theme="summer"] .event-note {
+    background-color: rgba(242, 227, 190, 0.671);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0e0d0d;
+}
+body[data-theme="summer"] .instruction-note::after,
+body[data-theme="summer"] .event-note::after {
+    background-color: #d7ad69cb;
+}
+body[data-theme="summer"] #shift-legend-test {
+    background-color: #e9d4adb0;
+    color: #241F19;
+}
+body[data-theme="summer"] .shiftButtons button {
+    background-color: #c5b182;
+    color: #34464D;
+}
+body[data-theme="summer"] #previous-month,
+body[data-theme="summer"] #next-month {
+    background-color: #c5b182;
+    color: #34464D;
+}
+
+/* JUNE — Worker Name & Start Date labels */
+body[data-theme="summer"] label[for="worker-name"],
+body[data-theme="summer"] label[for="start-date"] {
+    background: rgba(55, 111, 120, 0.72);
+    color: #FFF0D9;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+/* JUNE — Calendar heading */
+body[data-theme="summer"] h1 {
+    background: rgba(55, 111, 120, 0.72);
+    color: #FFF0D9;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -785px;
+    top: 7px;
+}
+
+/* JUNE — Calendar description */
+body[data-theme="summer"] .calendar-description {
+    background: rgba(55, 111, 120, 0.72);
+    color: #FFF0D9;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -598px;
+    top: 12px;
+}
+
+/* JUNE — Rotation Status */
+body[data-theme="summer"] #rotation-status {
+    background: rgba(233, 212, 173, 0.82);
+    color: #294C53;
+    padding: 8px 16px;
+    border-radius: 12px;
+    position: relative;
+    left: -290px;
+    display: block;
+    width: fit-content;
+    top: 5px;
+    margin: 0 auto;
+}
+
+/* JUNE — Weekday header strip */
+body[data-theme="summer"] .weekday-header {
+    background: rgba(233, 212, 173, 0.85);
+    color: #294C53;
+    border-radius: 6px;
+    padding: 6px 0;
+}
+
+/* JUNE — Individual weekday lettering */
+body[data-theme="summer"] .weekday-header > * {
+    color: #294C53;
+}
+body[data-theme="summer"] #edit-event-details {
+    background-color: #568F91;
+    color: #FFF0D9;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="summer"] #close-event-details {
+    background-color: #B97866;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="summer"] #cancel-event {
+    background-color: #8299AC;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="summer"] #worker-name {
+    background-color: #E9D4AD;
+    color: #292331;
+    font-weight: 600;
+}
+body[data-theme="summer"] #start-date {
+    background-color: #E9D4AD;
+    color: #292331;
+    font-weight: 600;
+}

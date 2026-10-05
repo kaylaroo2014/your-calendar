@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+
+    <main class="home-page">
+
+        <div class="home-header">
+            <h1>Welcome!</h1>
+            <p>Everything you need to keep your schedule and finances organized in one place.</p>
+            <p id="home-date"></p>
+        </div>
+
+        <div class="dashboard">
+
+    <div class="home-cards">
+
+        <div class="home-card calendar-card">
+            <h2>My Calendar</h2>
+            <p>Manage your work schedule, events, and reminders.</p>
+            <a href="calendar.html">Open Calendar</a>
+        </div>
+
+        <div class="home-card finance-card">
+            <h2>My Finances</h2>
+            <p>Organize your bills, due dates, and paychecks.</p>
+            <a href="finance.html">Open Finances</a>
+        </div>
+
+    </div>
+
+    <div class="dashboard-bottom">
+
+        <div class="weather-section">
+    <h2>Today's Weather</h2>
+
+    <div id="weather-setup">
+        <p>Enter your ZIP code to see your local weather.</p>
+
+        <input
+            type="text"
+            id="weather-zip"
+            placeholder="ZIP code"
+            maxlength="5"
+        >
+
+        <button id="save-weather-zip">Save</button>
+    </div>
+    
+    <p id="weather-error"></p>
+
+    <div id="weather-display"></div>
+    <button id="change-weather-location">Change Location</button>
+</div>
+
+        <div class="coming-up-section" id="coming-up">
+            <h2>Coming Up</h2>
+            <div id="upcoming-events"></div>
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+<script src="home.js"></script>
+
+</body>
+
+</html>
