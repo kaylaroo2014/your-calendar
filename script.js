@@ -90,7 +90,7 @@ function getAutoTheme() {
 
     return themes[month];
 }
-document.body.dataset.theme = getAutoTheme();
+document.body.dataset.theme = "spring";
 
 let personalEvents = JSON.parse(localStorage.getItem("personalEvents")) || {};
 let recurringEvents = JSON.parse(localStorage.getItem("recurringEvents")) || {};
@@ -551,7 +551,163 @@ addAnotherEventButton.addEventListener("click", function() {
     eventInput.focus();
 });
 
+const isMobileCalendar = window.matchMedia("(max-width: 600px)").matches;
+let mobileLongPressTimer = null;
+let mobileLongPressTriggered = false;
+
+dayBox.addEventListener("pointerdown", function() {
+    if (!isMobileCalendar) {
+        return;
+    }
+
+mobileLongPressTriggered = false;
+
+    mobileLongPressTimer = setTimeout(function() {
+        mobileLongPressTriggered = true;
+        rotationStart = dateKey;
+localStorage.setItem("rotationStart", rotationStart);
+
+rotationWarning.textContent = "";
+clearSelectionButton.style.display = "block";
+
+dayBox.classList.add("rotation-boundary");
+    }, 500);
+});
+dayBox.addEventListener("pointerup", function() {
+    if (!isMobileCalendar) {
+        return;
+    }
+
+    clearTimeout(mobileLongPressTimer);
+});
+dayBox.addEventListener("pointerleave", function() {
+    if (!isMobileCalendar) {
+        return;
+    }
+
+    clearTimeout(mobileLongPressTimer);
+});
+
 dayBox.addEventListener("click", function() {
+    if (isMobileCalendar) {
+            if (mobileLongPressTriggered) {
+        mobileLongPressTriggered = false;
+        return;
+    }
+    if (rotationStart !== null && rotationEnd === null) {
+    let startParts = rotationStart.split("-");
+    let clickedParts = dateKey.split("-");
+
+    let startDateObject = new Date(
+        startParts[0],
+        startParts[1] - 1,
+        startParts[2]
+    );
+
+    let clickedDateObject = new Date(
+        clickedParts[0],
+        clickedParts[1] - 1,
+        clickedParts[2]
+    );
+
+    if (clickedDateObject < startDateObject) {
+        rotationWarning.textContent =
+            "Hmm, that end date seems to be before your start date. Please check your rotation and try again.";
+        return;
+    }
+
+    rotationWarning.textContent = "";
+    rotationEnd = dateKey;
+    localStorage.setItem("rotationEnd", rotationEnd);
+
+    rotationStatus.innerHTML =
+        '<span class="rotation-message">Rotation set!</span>';
+
+    dayBox.classList.add("rotation-boundary");
+
+    buildRotationPattern();
+    renderCalendar();
+
+    return;
+}
+        selectedEventDate = dateKey;
+selectedEventDay = currentDate.getDay();
+selectedEventDayOfMonth = currentDate.getDate();
+selectedEventMonth = currentDate.getMonth();
+selectedRecurringEvent = null;
+
+    const mobileDayView = document.getElementById("mobile-day-view");
+    const mobileDayTitle = document.getElementById("mobile-day-title");
+
+    mobileDayTitle.textContent = currentDate.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+    });
+
+const mobileDayEvents = document.getElementById("mobile-day-events");
+
+const recurringEventsForDay = recurringEvents[currentDate.getDay()] || [];
+const monthlyEventsForDay = monthlyEvents[currentDate.getDate()] || [];
+const yearlyKey = currentDate.getMonth() + "-" + currentDate.getDate();
+const yearlyEventsForDay = yearlyEvents[yearlyKey] || [];
+const personalEventsForDay = personalEvents[dateKey] ? [personalEvents[dateKey]] : [];
+
+const allEventsForMobileDay = [
+    ...personalEventsForDay,
+    ...recurringEventsForDay,
+    ...monthlyEventsForDay,
+    ...yearlyEventsForDay
+];
+
+console.log("Mobile Day View events:", allEventsForMobileDay);
+mobileDayEvents.innerHTML = "";
+
+if (allEventsForMobileDay.length === 0) {
+    mobileDayEvents.innerHTML = "<p>No events for this day.</p>";
+} else {
+    allEventsForMobileDay.forEach(function(eventItem) {
+        const eventButton = document.createElement("button");
+        eventButton.textContent = eventItem.name;
+        const isPersonal = personalEventsForDay.includes(eventItem);
+        const isMonthly = monthlyEventsForDay.includes(eventItem);
+        const isYearly = yearlyEventsForDay.includes(eventItem);
+        const isWeekly = recurringEventsForDay.includes(eventItem);
+
+eventButton.addEventListener("click", function() {
+    selectedDetailsEvent = eventItem;
+    selectedDetailsDate = currentDate;
+
+    eventDetailsName.textContent = eventItem.name;
+    eventDetailsDate.textContent = currentDate.toDateString();
+    eventDetailsNotes.textContent = eventItem.notes;
+
+    if (isPersonal) {
+        selectedDetailsRepeat = "none";
+        eventDetailsRepeat.textContent = "Does not repeat";
+    } else if (isMonthly) {
+        selectedDetailsRepeat = "monthly";
+        eventDetailsRepeat.textContent = "Repeats every month";
+    } else if (isYearly) {
+        selectedDetailsRepeat = "yearly";
+        eventDetailsRepeat.textContent = "Repeats every year";
+    } else if (isWeekly) {
+        selectedDetailsRepeat = "weekly";
+        eventDetailsRepeat.textContent = "Repeats every week";
+    }
+
+    mobileDayView.style.display = "none";
+    eventDetailsPopup.style.display = "block";
+});
+
+        mobileDayEvents.appendChild(eventButton);
+    });
+}
+
+    mobileDayView.style.display = "block";
+    return;
+}
     
 if (dateKey === rotationStart) {
     rotationStart = null;
@@ -656,6 +812,33 @@ else if (rotationEnd === null) {
     buildRotationPattern();
     renderCalendar();
 }
+});
+
+const mobileCloseDay = document.getElementById("mobile-close-day");
+
+mobileCloseDay.addEventListener("click", function() {
+    document.getElementById("mobile-day-view").style.display = "none";
+});
+
+const mobileAddEvent = document.getElementById("mobile-add-event");
+
+mobileAddEvent.addEventListener("click", function() {
+    selectedRecurringEvent = null;
+
+    eventChooser.style.display = "none";
+    eventInput.style.display = "block";
+    eventRepeatSelect.parentElement.style.display = "block";
+    saveEventButton.style.display = "inline-block";
+
+    eventInput.value = "";
+    eventNotes.value = "";
+    eventRepeatSelect.value = "none";
+    deleteEventButton.style.display = "none";
+
+    document.getElementById("mobile-day-view").style.display = "none";
+    eventPopup.style.display = "block";
+
+    eventInput.focus();
 });
 
 const shiftButtons = document.createElement("div");

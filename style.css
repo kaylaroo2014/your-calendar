@@ -923,32 +923,6 @@ body[data-theme="autumn"] .autumn-decor {
     pointer-events: none;
 }
 
-/* First little acorn */
-body[data-theme="autumn"] .acorn-one {
-    position: fixed;
-    top: 110px;
-    left: 270px;
-    width: 35px;
-    height: 45px;
-    transform: rotate(-15deg);
-}
-body[data-theme="autumn"] .acorn-two {
-    position: fixed;
-    top: 115px;
-    left: 300px;
-    width: 27px;
-    height: 36px;
-    transform: rotate(20deg);
-}
-body[data-theme="autumn"] .leaf-one {
-    position: fixed;
-    top: 115px;
-    right: 330px;
-    width: 80px;
-    height: 80px;
-    transform: rotate(25deg);
-    filter: brightness(0.75) saturate(0.75);
-}
 /* November background image */
 body[data-theme="autumn"] {
     background-image:
@@ -1007,6 +981,71 @@ body[data-theme="christmas"] #shift-legend-test {
 body[data-theme="christmas"] .instruction-note,
 body[data-theme="christmas"] .event-note {
     background-color: #A66B70;
+    color: #241F19;
+}
+body[data-theme="christmas"] .mobile-note {
+    background-color: rgba(166, 107, 112, 0.85);
+    color: #241F19;
+}
+/* MOBILE NOTES — Seasonal Themes */
+
+body[data-theme="winter"] .mobile-note {
+    background-color: #b8c9d6;
+    color: #292331;
+}
+
+body[data-theme="valentines"] .mobile-note {
+    background-color: #b76e798e;
+    color: #FFF3EE;
+}
+
+body[data-theme="stpatricks"] .mobile-note {
+    background-color: #b9ceaa98;
+    color: #0e0d0d;
+}
+
+body[data-theme="spring"] .mobile-note {
+    background-color: #d8b7c7a2;
+    color: #0e0d0d;
+}
+
+body[data-theme="early-summer"] .mobile-note {
+    background-color: #f2e3beb6;
+    color: #0e0d0d;
+}
+
+body[data-theme="summer"] .mobile-note {
+    background-color: rgba(242, 227, 190, 0.671);
+    color: #0e0d0d;
+}
+
+body[data-theme="fourth-july"] .mobile-note {
+    background-color: #f7e7c69a;
+    color: #0e0d0d;
+}
+
+body[data-theme="back-school"] .mobile-note {
+    background-color: #d9a29a96;
+    color: #0e0d0d;
+}
+
+body[data-theme="harvest"] .mobile-note {
+    background-color: #d7b27a9c;
+    color: #0e0d0d;
+}
+
+body[data-theme="halloween"] .mobile-note {
+    background-color: #C98255;
+    color: #292331;
+}
+
+body[data-theme="autumn"] .mobile-note {
+    background-color: #b89c50;
+    color: #241F19;
+}
+
+body[data-theme="christmas"] .mobile-note {
+    background-color: rgba(166, 107, 112, 0.85);
     color: #241F19;
 }
 body[data-theme="christmas"] h1 {
@@ -2301,4 +2340,766 @@ body[data-theme="summer"] #start-date {
     background-color: #E9D4AD;
     color: #292331;
     font-weight: 600;
+}
+.mobile-calendar-notes {
+    display: none;
+}
+#mobile-day-view {
+    display: none;
+}
+/* CALENDAR — Mobile Layout */
+@media (max-width: 600px) {
+    .instruction-note,
+    .event-note {
+        display: none;
+    }
+    .mobile-calendar-notes {
+    display: block;
+}
+.mobile-note {
+    margin: 10px 0;
+    padding: 10px 12px;
+    background-color: rgba(239, 157, 77, 0.85);
+    border: 1px solid #292331;
+    border-radius: 8px;
+    color: #292331;
+}
+
+.mobile-note summary {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.mobile-note p {
+    margin: 10px 0 0;
+    line-height: 1.4;
+}
+#mobile-day-view {
+    width: calc(100% - 24px);
+    box-sizing: border-box;
+    margin: 12px auto;
+    padding: 14px;
+
+    border: 1px solid #292331;
+    border-radius: 10px;
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+#mobile-day-title {
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+}
+
+#mobile-day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+#mobile-day-events button {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #292331;
+    border-radius: 6px;
+    text-align: left;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#mobile-add-event,
+#mobile-close-day {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#mobile-add-event {
+    margin-right: 6px;
+}
+}
+body[data-theme="fourth-july"] {
+    background-image: url("images/july-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+body[data-theme="fourth-july"] .calendar-cell {
+    background-color: #d66b61a8;
+}
+
+body[data-theme="fourth-july"] .calendar-cell.weekend {
+    background-color: #b85b539f;
+}
+body[data-theme="fourth-july"] .calendar-cell.today .date-number {
+    background-color: #6abfc5b0;
+    color: #0a0a0a;
+    text-shadow: 0 1px 2px rgba(35, 45, 36, 0.65)
+}
+body[data-theme="fourth-july"] .calendar-cell.rotation-boundary {
+    background-color: #a9cbc171;
+}
+body[data-theme="fourth-july"] .calendar-cell .date-number {
+    color: #F7E7C6;
+}
+body[data-theme="fourth-july"] .weekly-event {
+    background-color: #F7E7C6;
+    color: #070607;
+}
+    body[data-theme="fourth-july"] .monthly-event {
+    background-color: #F2A06F;
+    color: #070607;
+    }
+    body[data-theme="fourth-july"] .yearly-event {
+    background-color: #E9A34B;
+    color: #070607;
+    }
+    body[data-theme="fourth-july"] .single-event {
+    background-color: #D66A61;
+    color: #070607;
+    }
+    body[data-theme="fourth-july"] .back-button {
+    background: #173A68;
+    color: #F7E7C6;
+}
+body[data-theme="fourth-july"] .back-button:hover {
+    background: #1e4a85;
+    color: #F7E7C6;
+}
+body[data-theme="fourth-july"] #today-button {
+    background: #173A68;
+    color: #F7E7C6;
+}
+body[data-theme="fourth-july"] #today-button:hover {
+    background: #1e4a85;
+    color: #F7E7C6;
+}
+body[data-theme="fourth-july"] #clear-selection {
+    background: #173A68;
+    color: #F7E7C6;
+}
+body[data-theme="fourth-july"] #clear-selection:hover {
+    background: #1e4a85;
+    color: #F7E7C6;
+}
+body[data-theme="fourth-july"] .instruction-note,
+body[data-theme="fourth-july"] .event-note {
+    background-color: #f7e7c69a;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0e0d0d;
+}
+body[data-theme="fourth-july"] .instruction-note::after,
+body[data-theme="fourth-july"] .event-note::after {
+    background-color: #ddceb09d;
+}
+body[data-theme="fourth-july"] #shift-legend-test {
+    background-color: #f7e7c6b0;
+    color: #241F19;
+}
+body[data-theme="fourth-july"] .shiftButtons button {
+    background-color: #2a548ade;
+    color: #c0c1c2;
+}
+body[data-theme="fourth-july"] #previous-month,
+body[data-theme="fourth-july"] #next-month {
+    background-color: #2a548ade;
+    color: #c0c1c2;
+}
+body[data-theme="fourth-july"] #rotation-status {
+    background: rgba(233, 212, 173, 0.82);
+    color: #294C53;
+    padding: 8px 16px;
+    border-radius: 12px;
+    position: relative;
+    left: -290px;
+    display: block;
+    width: fit-content;
+    top: 5px;
+    margin: 0 auto;
+}
+body[data-theme="fourth-july"] #cancel-event {
+    background-color: #B94343;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="fourth-july"] #add-another-event {
+    background-color: #173A68;
+    color: #F7E7C6;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="fourth-july"] #event-input {
+    background-color: #FFF8EA;
+    color: #252820;
+    border: 1px solid #173A68;
+    border-radius: 4px;
+}
+body[data-theme="fourth-july"] #event-repeat {
+    background-color: #72978A;
+    color: #292331;
+    border: 1px solid #FFF8E8;
+    border-radius: 4px;
+}
+body[data-theme="fourth-july"] #delete-event {
+    background-color: #B97866;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="fourth-july"] #event-details-popup {
+    background-color: #f7e7c6de;
+    color: #252820;
+    border: 1px solid #173A68;
+}
+body[data-theme="fourth-july"] #edit-event-details {
+    background-color: #5278A3;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="fourth-july"] #close-event-details {
+    background-color: #B94343;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="fourth-july"] #event-popup {
+    background-color: #f7e7c6d0;
+    color: #252820;
+    border: 2px solid #173A68;
+}
+body[data-theme="fourth-july"] h1 {
+    background: #173a68dc;
+    color: #FFF0D9;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -785px;
+    top: 7px;
+}
+
+/* JUNE — Calendar description */
+body[data-theme="fourth-july"] .calendar-description {
+    background: #173a68dc;
+    color: #FFF0D9;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -598px;
+    top: 12px;
+}
+body[data-theme="fourth-july"] #worker-name {
+    background-color: #214069c7;
+    color: #FFF0D9;
+    font-weight: 600;
+}
+body[data-theme="fourth-july"] #start-date {
+    background-color: #214069c7;
+    color: #FFF0D9;
+    font-weight: 600;
+}
+body[data-theme="fourth-july"] .weekday-header > * {
+    color: #FFF0D9;
+}
+body[data-theme="fourth-july"] .weekday-header {
+    background: #214069c7;
+    color: #FFF0D9;
+    border-radius: 6px;
+    padding: 6px 0;
+}
+body[data-theme="fourth-july"] label[for="worker-name"],
+body[data-theme="fourth-july"] label[for="start-date"] {
+    background: #214069c7;
+    color: #FFF0D9;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+.july-sticky-fireworks {
+    display: none;
+    width: 28px;
+    height: 35px;
+}
+
+/* Only visible during July */
+body[data-theme="fourth-july"] .july-sticky-fireworks {
+    display: block;
+}
+body[data-theme="back-school"] {
+    background-image: url("images/august-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+body[data-theme="back-school"] .calendar-cell {
+    background-color: #6f9b92b7;
+}
+
+body[data-theme="back-school"] .calendar-cell.weekend {
+    background-color: #527b74ad;
+}
+body[data-theme="back-school"] .calendar-cell.today .date-number {
+    background-color: #D99A92;
+    color: #0a0a0a;
+    text-shadow: 0 1px 2px rgba(35, 45, 36, 0.65)
+}
+body[data-theme="back-school"] .calendar-cell.rotation-boundary {
+    background-color: #89bdb2c4;
+}
+body[data-theme="back-school"] .calendar-cell .date-number {
+    color: #F7E6C8;
+}
+body[data-theme="back-school"] .weekly-event {
+    background-color: #86AAA1;
+    color: #070607;
+}
+    body[data-theme="back-school"] .monthly-event {
+    background-color: #D8A84E;
+    color: #070607;
+    }
+    body[data-theme="back-school"] .yearly-event {
+    background-color: #7E9FB1;
+    color: #070607;
+    }
+    body[data-theme="back-school"] .single-event {
+    background-color: #D99A92;
+    color: #070607;
+    }
+    body[data-theme="back-school"] .back-button {
+    background: #355C52;
+    color: #F7E6C8;
+}
+body[data-theme="back-school"] .back-button:hover {
+    background: #355C52;
+    color: #F7E7C6;
+}
+body[data-theme="back-school"] #today-button {
+    background: #355C52;
+    color: #F7E7C6;
+}
+body[data-theme="back-school"] #today-button:hover {
+    background: #2a4941;
+    color: #F7E7C6;
+}
+body[data-theme="back-school"] #clear-selection {
+    background: #355C52;
+    color: #F7E7C6;
+}
+body[data-theme="back-school"] #clear-selection:hover {
+    background: #2a4941;
+    color: #F7E7C6;
+}
+body[data-theme="back-school"] .instruction-note,
+body[data-theme="back-school"] .event-note {
+    background-color: #d9a29a96;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0e0d0d;
+}
+body[data-theme="back-school"] .instruction-note::after,
+body[data-theme="back-school"] .event-note::after {
+    background-color: #ca989196;
+}
+body[data-theme="back-school"] #shift-legend-test {
+    background-color: #d9a29a96;
+    color: #0e0d0d;
+}
+body[data-theme="back-school"] .shiftButtons button {
+    background-color: #F4E4C8;
+    color: #0e0d0d;
+}
+body[data-theme="back-school"] #previous-month,
+body[data-theme="back-school"] #next-month {
+    background-color: #F4E4C8;
+    color: #0e0d0d;
+}
+body[data-theme="back-school"] #rotation-status {
+    background: #d99a92d7;
+    color: #263B35;
+    padding: 8px 16px;
+    border-radius: 12px;
+    position: relative;
+    left: -290px;
+    display: block;
+    width: fit-content;
+    top: 5px;
+    margin: 0 auto;
+}
+body[data-theme="back-school"] #cancel-event {
+    background-color: #B85F59;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="back-school"] #add-another-event {
+    background-color: #355C52;
+    color: #F7E7C6;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="back-school"] #event-input {
+    background-color: #FFF7E8;
+    color: #252820;
+    border: 1px solid #527B74;
+    border-radius: 4px;
+}
+body[data-theme="back-school"] #event-repeat {
+    background-color: #FFF7E8;
+    color: #252820;
+    border: 1px solid #527B74;
+    border-radius: 4px;
+}
+body[data-theme="back-school"] #delete-event {
+    background-color: #8E4541;
+    color: #141414;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="back-school"] #event-details-popup {
+    background-color: #f4e4c8cc;
+    color: #263B35;
+    border: 1px solid #355C52;
+}
+body[data-theme="back-school"] #edit-event-details {
+    background-color: #6F9B92;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="back-school"] #close-event-details {
+    background-color: #B85F59;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="back-school"] #event-popup {
+    background-color: #f4e4c8d5;
+    color: #263B35;
+    border: 2px solid #355C52;
+}
+body[data-theme="back-school"] h1 {
+    background: #355c52ce;
+    color: #F7E6C8;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -785px;
+    top: 7px;
+}
+
+body[data-theme="back-school"] .calendar-description {
+    background: #355c52cb;
+    color: #F7E6C8;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -598px;
+    top: 12px;
+}
+body[data-theme="back-school"] #worker-name {
+    background-color: #F4E4C8;
+    color: #263B35;
+    font-weight: 600;
+}
+body[data-theme="back-school"] #start-date {
+    background-color: #F4E4C8;
+    color: #263B35;
+    font-weight: 600;
+}
+body[data-theme="back-school"] .weekday-header > * {
+    color: #cfd1d0;
+}
+body[data-theme="back-school"] .weekday-header {
+    background: #355c52d7;
+    color: #F7E6C8;
+    border-radius: 6px;
+    padding: 6px 0;
+}
+body[data-theme="back-school"] label[for="worker-name"],
+body[data-theme="back-school"] label[for="start-date"] {
+    background: #355c52cb;
+    color: #F7E6C8;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+.august-sticky-apple {
+    display: none;
+    width: 28px;
+    height: 35px;
+}
+
+/* Only visible during August */
+body[data-theme="back-school"] .august-sticky-apple {
+    display: block;
+}
+body[data-theme="harvest"] {
+    background-image: url("images/september-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+body[data-theme="harvest"] .calendar-cell {
+    background-color: #7d865a91;
+}
+
+body[data-theme="harvest"] .calendar-cell.weekend {
+    background-color: #646c488f;
+}
+body[data-theme="harvest"] #month-title {
+    color: #F5EBDD;
+}
+body[data-theme="harvest"] .calendar-cell.today .date-number {
+    background-color: #B85C4F;
+    color: #0a0a0a;
+    text-shadow: 0 1px 2px rgba(35, 45, 36, 0.65)
+}
+body[data-theme="harvest"] .calendar-cell.rotation-boundary {
+    background-color: #ecc07e91;
+}
+body[data-theme="harvest"] .calendar-cell .date-number {
+    color: #FFF3DE;
+}
+body[data-theme="harvest"] .weekly-event {
+    background-color: #9AA678;
+    color: #25291E;
+}
+    body[data-theme="harvest"] .monthly-event {
+    background-color: #D2A252;
+    color: #30261E;
+    }
+    body[data-theme="harvest"] .yearly-event {
+    background-color: #8199A0;
+    color: #1E292C;
+    }
+    body[data-theme="harvest"] .single-event {
+    background-color: #B85C4F;
+    color: #FFF3DE;
+    }
+    body[data-theme="harvest"] .back-button {
+    background: #4F5B3D;
+    color: #F7E6C8;
+}
+body[data-theme="harvest"] .back-button:hover {
+    background: #3E4930;
+    color: #F7E7C6;
+}
+body[data-theme="harvest"] #today-button {
+    background: #4F5B3D;
+    color: #F7E7C6;
+}
+body[data-theme="harvest"] #today-button:hover {
+    background: #3E4930;
+    color: #F7E7C6;
+}
+body[data-theme="harvest"] #clear-selection {
+    background: #4F5B3D;
+    color: #F7E7C6;
+}
+body[data-theme="harvest"] #clear-selection:hover {
+    background: #3E4930;
+    color: #F7E7C6;
+}
+body[data-theme="harvest"] .instruction-note,
+body[data-theme="harvest"] .event-note {
+    background-color: #d7b27a9c;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #0e0d0d;
+}
+body[data-theme="harvest"] .instruction-note::after,
+body[data-theme="harvest"] .event-note::after {
+    background-color: #c09e6ca9;
+}
+body[data-theme="harvest"] #shift-legend-test {
+    background-color: #d7b27abd;
+    color: #0e0d0d;
+}
+body[data-theme="harvest"] .shiftButtons button {
+    background-color: #F3E3C4;
+    color: #30261E;
+}
+body[data-theme="harvest"] #previous-month,
+body[data-theme="harvest"] #next-month {
+    background-color: #D2A252;
+    color: #30261E;
+}
+body[data-theme="harvest"] #rotation-status {
+    background: #b85b4fd2;
+    color: #FFF3DE;
+    padding: 8px 16px;
+    border-radius: 12px;
+    position: relative;
+    left: -290px;
+    display: block;
+    width: fit-content;
+    top: 5px;
+    margin: 0 auto;
+}
+body[data-theme="harvest"] #cancel-event {
+    background-color: #B85C4F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="harvest"] #add-another-event {
+    background-color: #4F5B3D;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="harvest"] #event-input {
+    background-color: #FFF6E5;
+    color: #30261E;
+    border: 1px solid #7D865A;
+    border-radius: 4px;
+}
+body[data-theme="harvest"] #event-repeat {
+    background-color: #FFF6E5;
+    color: #30261E;
+    border: 1px solid #7D865A;
+    border-radius: 4px;
+}
+body[data-theme="harvest"] #delete-event {
+    background-color: #873F38;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="harvest"] #event-details-popup {
+    background-color: #f3e3c4da;
+    color: #30261E;
+    border: 1px solid #4F5B3D;
+}
+body[data-theme="harvest"] #edit-event-details {
+    background-color: #6F9B92;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+body[data-theme="harvest"] #close-event-details {
+    background-color: #B85C4F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+body[data-theme="harvest"] #event-popup {
+    background-color: rgba(244, 228, 200, 0.808);
+    color: #30261E;
+    border: 2px solid #7D865A;
+}
+body[data-theme="harvest"] h1 {
+    background: #4f5b3dc0;
+    color: #F5E6C8;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -785px;
+    top: 7px;
+}
+
+body[data-theme="harvest"] .calendar-description {
+    background: #4f5b3dbe;
+    color: #F5E6C8;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2px 6px;
+    border-radius: 10px;
+
+    position: relative;
+    left: -598px;
+    top: 12px;
+}
+body[data-theme="harvest"] #worker-name {
+    background-color: #F3E3C4;
+    color: #30261ec9;
+    font-weight: 600;
+}
+body[data-theme="harvest"] #start-date {
+    background-color: #F3E3C4;
+    color: #30261E;
+    font-weight: 600;
+}
+body[data-theme="harvest"] .weekday-header > * {
+    color: #cfd1d0;
+}
+body[data-theme="harvest"] .weekday-header {
+    background: #4f5b3dbd;
+    color: #F5E6C8;
+    border-radius: 6px;
+    padding: 6px 0;
+}
+body[data-theme="harvest"] label[for="worker-name"],
+body[data-theme="harvest"] label[for="start-date"] {
+    background: #4f5b3db6;
+    color: #F5E6C8;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+.september-sticky-branch {
+    display: none;
+    width: 28px;
+    height: 35px;
+}
+
+/* Only visible during September */
+body[data-theme="harvest"] .september-sticky-branch {
+    display: block;
 }
