@@ -560,7 +560,11 @@ dayBox.addEventListener("pointerdown", function() {
         return;
     }
 
-mobileLongPressTriggered = false;
+    if (rotationStart && rotationEnd) {
+        return;
+    }
+
+    mobileLongPressTriggered = false;
 
     mobileLongPressTimer = setTimeout(function() {
         mobileLongPressTriggered = true;
