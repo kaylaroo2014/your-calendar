@@ -90,7 +90,7 @@ function getAutoTheme() {
 
     return themes[month];
 }
-document.body.dataset.theme = "spring";
+document.body.dataset.theme = getAutoTheme();
 
 let personalEvents = JSON.parse(localStorage.getItem("personalEvents")) || {};
 let recurringEvents = JSON.parse(localStorage.getItem("recurringEvents")) || {};
@@ -661,7 +661,6 @@ const allEventsForMobileDay = [
     ...yearlyEventsForDay
 ];
 
-console.log("Mobile Day View events:", allEventsForMobileDay);
 mobileDayEvents.innerHTML = "";
 
 if (allEventsForMobileDay.length === 0) {

@@ -165,18 +165,32 @@ text-decoration: none;
 }
 /* HOME — Mobile Layout */
 @media (max-width: 600px) {
-    .home-cards {
-        grid-template-columns: 1fr;
-    }
-
+    .home-cards,
     .dashboard-bottom {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
+    .home-page {
+    padding: 30px 16px;
 }
-/* CALENDAR — Mobile Layout */
-@media (max-width: 600px) {
-    .instruction-note,
-    .event-note {
-        display: none;
-    }
+
+.home-header {
+    margin-bottom: 25px;
+}
+
+.home-header h1 {
+    font-size: 34px;
+    margin-top: 0;
+}
+
+#home-date {
+    font-size: 2rem;
+}
+
+.dashboard {
+    padding: 18px;
+}
+
+.home-card {
+    padding: 20px;
+}
 }

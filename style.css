@@ -1809,6 +1809,10 @@ body[data-theme="spring"] #shift-legend-test {
     background-color: #d8b7c7cb;
     color: #241F19;
 }
+body[data-theme="spring"] .shiftButtons button {
+    background-color: #D8B7C7;
+    color: #292331;
+}
 body[data-theme="spring"] #rotation-status {
     background: rgba(173, 116, 141, 0.88);
     color: #FFF8ED;
@@ -1914,7 +1918,7 @@ body[data-theme="spring"] #start-date {
 body[data-theme="spring"] .spring-sticky-tulip {
     display: block;
 }
-/* MAY — Strawberry Cream Soda */
+
 body[data-theme="early-summer"] {
     background-image: url("images/may-background.png");
     background-size: cover;
@@ -2349,6 +2353,45 @@ body[data-theme="summer"] #start-date {
 }
 /* CALENDAR — Mobile Layout */
 @media (max-width: 600px) {
+    #event-popup {
+    width: calc(100% - 32px);
+    max-width: 360px;
+    box-sizing: border-box;
+    padding: 16px;
+}
+#event-popup input,
+#event-popup textarea,
+#event-popup select {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+    #shift-legend-test {
+    width: 95px;
+    left: auto;
+    right: 12px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+    body[data-theme] h1,
+body[data-theme] .calendar-description {
+    display: none;
+}
+    .form-group {
+    margin-top: 10px;
+}
+    .calendar-cell {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+#rotation-status {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 8px auto !important;
+    width: fit-content !important;
+}
     .instruction-note,
     .event-note {
         display: none;
@@ -3102,4 +3145,18 @@ body[data-theme="harvest"] label[for="start-date"] {
 /* Only visible during September */
 body[data-theme="harvest"] .september-sticky-branch {
     display: block;
+}
+#rotation-warning:not(:empty) {
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    box-sizing: border-box;
+    margin: 10px auto;
+    padding: 8px 12px;
+
+    background-color: rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    border: 1px solid rgba(41, 35, 49, 0.35);
+    border-radius: 8px;
 }
