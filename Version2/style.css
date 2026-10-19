@@ -3251,13 +3251,13 @@ body[data-theme="halloween"] .calendar-cell.today .date-number {
 #shift-legend-test {
     display: none !important;
 }
-/* VERSION 2.0 — Clean stacked shift legend */
+/* VERSION 2.0 — Centered shift legend */
 #shift-legend-v2 {
-    position: absolute;
-    left: 1275px;
-    top: 430px;
+    position: static;
+    margin-top: 15px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
     gap: 10px;
     color: #A86D4C;
     font-size: 14px;
