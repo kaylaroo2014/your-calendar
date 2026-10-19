@@ -3509,3 +3509,8 @@ body .calendar-cell.rotation-boundary {
     margin-top: 6px;
     margin-bottom: 12px;
 }
+/* VERSION 2.0 — Prevent iPhone zoom in event fields */
+#event-input,
+#event-notes {
+    font-size: 16px;
+}
