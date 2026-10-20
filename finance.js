@@ -1,4 +1,3 @@
-
 // FINANCE JR. — Calendar
 
 let currentDate = new Date();
@@ -19,7 +18,6 @@ const billDate = document.getElementById("bill-date");
 const billNotes = document.getElementById("bill-notes");
 const billRepeat = document.getElementById("bill-repeat");
 const cancelBill = document.getElementById("cancel-bill");
-const upcomingBillsList = document.getElementById("upcoming-bills-list");
 
 
 // Finance Jr.'s saved bills
@@ -309,136 +307,295 @@ document.getElementById("details-paid").addEventListener("click", () => {
 });
 
 
-function renderCalendar() {
-    calendarGrid.innerHTML = "";
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+/* =========================================
+   FINANCE 2.0 — RECEIPTS & DAY VIEW
+   ========================================= */
 
-    // Display the current month and year
-    monthYear.textContent = currentDate.toLocaleString("en-US", {
-        month: "long",
-        year: "numeric"
-    });
+const billDayPopup = document.getElementById("bill-day-popup");
+const billDayTitle = document.getElementById("bill-day-title");
+const billDayList = document.getElementById("bill-day-list");
+const billDayAdd = document.getElementById("bill-day-add");
+const billDayClose = document.getElementById("bill-day-close");
 
-    // Find where the first day of the month falls
-    const firstDay = new Date(year, month, 1).getDay();
+let viewingBillDate = null;
 
-    // Find how many days are in the month
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+// Check whether a bill occurs on a particular date.
+function billOccursOnDate(bill, date) {
+    const [billYear, billMonth, billDay] =
+        bill.date.split("-").map(Number);
 
-    // Empty cells before the first day
-    for (let i = 0; i < firstDay; i++) {
-        const emptyCell = document.createElement("div");
-        emptyCell.classList.add("calendar-day", "empty");
-        calendarGrid.appendChild(emptyCell);
-    }
+    const originalDate = new Date(
+        billYear,
+        billMonth - 1,
+        billDay
+    );
 
-    // Generate each date
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dayCell = document.createElement("div");
+    const checkDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    );
 
-        dayCell.classList.add("calendar-day");
+    if (checkDate < originalDate) return false;
 
-const today = new Date();
-
-const dayNumber = document.createElement("span");
-dayNumber.textContent = day;
-
-if (
-    day === today.getDate() &&
-    month === today.getMonth() &&
-    year === today.getFullYear()
-) {
-    dayNumber.classList.add("today-number");
-}
-
-dayCell.appendChild(dayNumber);
-
-// Display bills for this date
-const dateKey = [
-    year,
-    String(month + 1).padStart(2, "0"),
-    String(day).padStart(2, "0")
-].join("-");
-
-
-const billsForDay = bills.filter(bill => {
-    const [billYear, billMonth, billDay] = bill.date
-        .split("-")
-        .map(Number);
-
-    const originalDate = new Date(billYear, billMonth - 1, billDay);
-    const currentCellDate = new Date(year, month, day);
-
-    // Never show a recurring bill before its original start date
-    if (currentCellDate < originalDate) {
-        return false;
-    }
+    const year = checkDate.getFullYear();
+    const month = checkDate.getMonth();
+    const day = checkDate.getDate();
 
     if (bill.repeat === "never") {
-        return bill.date === dateKey;
+        return bill.date === formatBillDate(checkDate);
     }
 
     if (bill.repeat === "weekly") {
         const daysBetween = Math.round(
-            (Date.UTC(year, month, day) -
-             Date.UTC(billYear, billMonth - 1, billDay)) / 86400000
+            (
+                Date.UTC(year, month, day) -
+                Date.UTC(billYear, billMonth - 1, billDay)
+            ) / 86400000
         );
 
         return daysBetween % 7 === 0;
     }
 
     if (bill.repeat === "monthly") {
-    const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-    const dueDay = Math.min(billDay, lastDayOfMonth);
+        const lastDay = new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
 
-    return day === dueDay;
-}
+        return day === Math.min(billDay, lastDay);
+    }
 
     if (bill.repeat === "yearly") {
-        return month === billMonth - 1 && day === billDay;
+        return (
+            month === billMonth - 1 &&
+            day === billDay
+        );
     }
 
     return false;
-});
-
-
-billsForDay.forEach(bill => {
-    const billLabel = document.createElement("div");
-
-    billLabel.classList.add("bill-label");
-    billLabel.textContent = bill.name;
-
-// Check whether this specific occurrence is paid
-const occurrenceDate = new Date(year, month, day);
-const paymentKey = getPaymentKey(bill, occurrenceDate);
-
-if (paidBills[paymentKey] === true) {
-    billLabel.classList.add("paid");
-    billLabel.textContent = "✓ " + bill.name;
 }
 
+function getBillsForDate(date) {
+    return bills.filter(bill =>
+        billOccursOnDate(bill, date)
+    );
+}
 
-billLabel.addEventListener("click", (event) => {
-    event.stopPropagation();
+// Small receipt SVG, using the CSS color.
+function createReceiptIcon(isPaid) {
+    const receipt = document.createElement("span");
 
-    const occurrenceDate = new Date(year, month, day);
+    receipt.className =
+        "bill-receipt " + (isPaid ? "paid" : "unpaid");
 
-    openBillDetails(bill, occurrenceDate);
-});
+    receipt.innerHTML = `
+        <svg viewBox="0 0 24 24"
+             width="19"
+             height="19"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             aria-hidden="true">
+            <path d="M4 3v18l4-2 4 2 4-2 4 2V3H4z"/>
+            <path d="M8 8h8M8 12h8M8 16h4"/>
+        </svg>
+    `;
 
+    return receipt;
+}
 
-    dayCell.appendChild(billLabel);
-});
+// Display all bills for the selected date.
+function openBillDayView(date) {
+    viewingBillDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    );
 
-dayCell.addEventListener("click", () => {
-    const selectedDate = new Date(year, month, day);
-    openBillPopup(selectedDate);
-});
-calendarGrid.appendChild(dayCell);
+    billDayTitle.textContent =
+        "Bills — " +
+        viewingBillDate.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        });
+
+    billDayList.innerHTML = "";
+
+    const dayBills = getBillsForDate(viewingBillDate);
+
+    if (dayBills.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "bill-day-empty";
+        empty.textContent = "No bills for this date.";
+        billDayList.appendChild(empty);
     }
-    renderUpcomingBills();
+
+    dayBills.forEach(bill => {
+        const isPaid = paidBills[
+            getPaymentKey(bill, viewingBillDate)
+        ] === true;
+
+        const entry = document.createElement("button");
+        entry.type = "button";
+        entry.className = "bill-day-entry";
+
+        const icon = createReceiptIcon(isPaid);
+
+        const info = document.createElement("span");
+        info.className = "bill-day-info";
+
+        const name = document.createElement("strong");
+        name.textContent = bill.name;
+
+        const status = document.createElement("small");
+        status.textContent = isPaid ? "Paid" : "Unpaid";
+        status.className = isPaid
+            ? "bill-status-paid"
+            : "bill-status-unpaid";
+
+        info.appendChild(name);
+        info.appendChild(status);
+
+        const amount = document.createElement("span");
+        amount.className = "bill-day-amount";
+
+        amount.textContent =
+            bill.amount !== undefined &&
+            bill.amount !== ""
+                ? "$" + Number(bill.amount).toLocaleString(
+                    "en-US",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                )
+                : "—";
+
+        entry.appendChild(icon);
+        entry.appendChild(info);
+        entry.appendChild(amount);
+
+        entry.addEventListener("click", () => {
+            billDayPopup.style.display = "none";
+            openBillDetails(bill, viewingBillDate);
+        });
+
+        billDayList.appendChild(entry);
+    });
+
+    billDayPopup.style.display = "flex";
+}
+
+billDayAdd.addEventListener("click", () => {
+    if (!viewingBillDate) return;
+
+    billDayPopup.style.display = "none";
+    openBillPopup(viewingBillDate);
+});
+
+billDayClose.addEventListener("click", () => {
+    billDayPopup.style.display = "none";
+});
+
+/* =========================================
+   COMPACT CALENDAR
+   ========================================= */
+
+function renderCalendar() {
+    calendarGrid.innerHTML = "";
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    monthYear.textContent = currentDate.toLocaleString(
+        "en-US",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+    const firstDay = new Date(year, month, 1).getDay();
+
+    const daysInMonth = new Date(
+        year,
+        month + 1,
+        0
+    ).getDate();
+
+    // Blank cells before the first date.
+    for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement("div");
+        emptyCell.classList.add("calendar-day", "empty");
+        calendarGrid.appendChild(emptyCell);
+    }
+
+    const today = new Date();
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+
+        const dayCell = document.createElement("div");
+        dayCell.classList.add("calendar-day");
+
+        const dayNumber = document.createElement("span");
+        dayNumber.textContent = day;
+
+        if (
+            day === today.getDate() &&
+            month === today.getMonth() &&
+            year === today.getFullYear()
+        ) {
+            dayNumber.classList.add("today-number");
+        }
+
+        dayCell.appendChild(dayNumber);
+
+        const dayBills = getBillsForDate(date);
+
+        if (dayBills.length > 0) {
+            const receipts = document.createElement("div");
+            receipts.className = "bill-receipts";
+
+            // Show up to three receipts.
+            dayBills.slice(0, 3).forEach(bill => {
+                const isPaid = paidBills[
+                    getPaymentKey(bill, date)
+                ] === true;
+
+                receipts.appendChild(
+                    createReceiptIcon(isPaid)
+                );
+            });
+
+            // Additional bills are represented by a count.
+            if (dayBills.length > 3) {
+                const extra = document.createElement("span");
+                extra.className = "bill-receipt-extra";
+                extra.textContent = "+" + (dayBills.length - 3);
+                receipts.appendChild(extra);
+            }
+
+            dayCell.appendChild(receipts);
+            dayCell.classList.add("has-bills");
+        }
+
+        dayCell.addEventListener("click", () => {
+            if (dayBills.length > 0) {
+                openBillDayView(date);
+            } else {
+                openBillPopup(date);
+            }
+        });
+
+        calendarGrid.appendChild(dayCell);
+    }
 }
 
 // Previous month
@@ -460,119 +617,6 @@ document.getElementById("today-button").addEventListener("click", () => {
     currentDate = new Date();
     renderCalendar();
 });
-function renderUpcomingBills() {
-
-    upcomingBillsList.innerHTML = "";
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const upcoming = [];
-
-    // Look ahead 90 days
-    for (let i = 0; i <= 90; i++) {
-
-        const checkDate = new Date(today);
-        checkDate.setDate(today.getDate() + i);
-
-        const year = checkDate.getFullYear();
-        const month = checkDate.getMonth();
-        const day = checkDate.getDate();
-
-        bills.forEach(bill => {
-
-            const [billYear, billMonth, billDay] =
-                bill.date.split("-").map(Number);
-
-            const originalDate =
-                new Date(billYear, billMonth - 1, billDay);
-
-            // Don't show occurrences before the bill originally begins
-            if (checkDate < originalDate) return;
-
-            let occursToday = false;
-
-            if (bill.repeat === "never") {
-                occursToday =
-                    year === billYear &&
-                    month === billMonth - 1 &&
-                    day === billDay;
-            }
-
-            if (bill.repeat === "weekly") {
-
-                const daysBetween = Math.round(
-                    (
-                        Date.UTC(year, month, day) -
-                        Date.UTC(billYear, billMonth - 1, billDay)
-                    ) / 86400000
-                );
-
-                occursToday = daysBetween % 7 === 0;
-            }
-
-            if (bill.repeat === "monthly") {
-    const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-    const dueDay = Math.min(billDay, lastDayOfMonth);
-
-    occursToday = day === dueDay;
-}
-
-            if (bill.repeat === "yearly") {
-                occursToday =
-                    month === billMonth - 1 &&
-                    day === billDay;
-            }
-
-            if (!occursToday) return;
-
-            // Skip occurrences that are already paid
-            const paymentKey = getPaymentKey(bill, checkDate);
-
-            if (paidBills[paymentKey] === true) return;
-
-            upcoming.push({
-                bill: bill,
-                date: new Date(checkDate)
-            });
-        });
-    }
-
-    // Only show the nearest 5 unpaid occurrences
-    const nextBills = upcoming.slice(0, 5);
-
-    if (nextBills.length === 0) {
-        upcomingBillsList.innerHTML =
-            `<p class="upcoming-empty">No upcoming bills.</p>`;
-        return;
-    }
-
-    nextBills.forEach(item => {
-
-        const entry = document.createElement("div");
-        entry.classList.add("upcoming-item");
-        entry.addEventListener("click", () => {
-    openBillDetails(item.bill, item.date);
-});
-
-        const date = document.createElement("div");
-        date.classList.add("upcoming-date");
-
-        date.textContent = item.date.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric"
-        });
-
-        const name = document.createElement("div");
-        name.classList.add("upcoming-name");
-        name.textContent = item.bill.name;
-
-        entry.appendChild(date);
-        entry.appendChild(name);
-
-        upcomingBillsList.appendChild(entry);
-    });
-}
 // Load the calendar
 renderCalendar();
 // Jump to a selected month

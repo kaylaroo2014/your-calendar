@@ -558,25 +558,6 @@
     <h3>Quick Tip:</h3>
     <p>Right click any date to add an event, reminder, or anything you want to remember!</p>
     </div>
-    <!-- MOBILE — Calendar Help -->
-<div class="mobile-calendar-notes">
-
-    <details class="mobile-note">
-        <summary>How It Works</summary>
-        <p>
-            Set up your work rotation and manage your schedule right from your phone.
-        </p>
-    </details>
-
-    <details class="mobile-note">
-        <summary>Quick Tip</summary>
-        <p>
-            Tap a date to view the day and manage events.
-            Press and hold a date to begin selecting a rotation.
-        </p>
-    </details>
-
-</div>
 <!-- MOBILE — Day View -->
 <div id="mobile-day-view">
     <h3 id="mobile-day-title">Day View</h3>
@@ -592,7 +573,10 @@
 
         <div class="month-navigation">
             <button id="previous-month">&lt;</button>
-            <h3 id="month-title"></h3>
+            <div class="month-title-group">
+    <h3 id="month-title"></h3>
+    <span id="month-season-icon" aria-hidden="true"></span>
+</div>
             <button id="next-month">&gt;</button>
         </div>
 
@@ -621,24 +605,96 @@
 </div>
 -->
 </div>
-<div id="shift-legend-test">
-    <span>D</span>
-    <span>Day Shift</span>
-    <br>
-    <span>N</span>
-    <span>Night Shift</span>
-    <br>
-    <span></span>
-    <span>Off</span>
+<div id="shift-legend-v2">
+    <div class="shift-legend-row">
+        <span class="shift-bar day"></span>
+        <span>Day Shift</span>
+    </div>
+    <div class="shift-legend-row">
+        <span class="shift-bar night"></span>
+        <span>Night Shift</span>
+    </div>
 </div>
 <div id="rotation-actions">
+    <!-- VERSION 2.0 — Automatic Rotation Setup -->
+
                     <p id="rotation-status"><span id="rotation-status-text"></span></p>
 
                     <div id="calendar-actions">
                         <button id="clear-selection">Clear Selection</button>
+                        <button id="setup-rotation-v2" type="button">Set Up Rotation</button>
                         <button id="today-button">Today</button>
                     </div>
                 </div>
+                <!-- VERSION 2.0 — Rotation Setup Popup -->
+<div id="rotation-setup-v2">
+    <h3>Set Up Rotation</h3>
+    <!-- VERSION 2.0 — Rotation Schedule -->
+<label for="rotation-schedule-v2">Work Schedule</label>
+
+<select id="rotation-schedule-v2">
+    <option value="">Choose a schedule...</option>
+    <option value="223">2-2-3 (Pitman)</option>
+    <option value="4on4off">4 On / 4 Off</option>
+    <option value="5on2off">Monday–Friday</option>
+    <option value="custom">Custom Schedule</option>
+</select>
+<!-- VERSION 2.0 — Custom Rotation Fields -->
+<div id="rotation-custom-fields-v2" style="display: none;">
+
+    <label for="rotation-days-on-v2">Consecutive Work Days</label>
+    <input
+        type="number"
+        id="rotation-days-on-v2"
+        min="1"
+        max="31"
+        placeholder="Days on"
+    >
+
+    <label for="rotation-days-off-v2">Consecutive Days Off</label>
+    <input
+        type="number"
+        id="rotation-days-off-v2"
+        min="1"
+        max="31"
+        placeholder="Days off"
+    >
+
+</div>
+<!-- VERSION 2.0 — Shift Type -->
+<label for="rotation-shift-v2">Shift Rotation</label>
+<select id="rotation-shift-v2">
+    <option value="">Choose your shift rotation...</option>
+    <option value="Day">Permanent Day Shift</option>
+    <option value="Night">Permanent Night Shift</option>
+    <option value="AlternatingBlocks">Alternate Every Work Block</option>
+    <option value="Alternating2Weeks">Alternate Every 2 Weeks</option>
+</select>
+<div id="rotation-first-shift-fields-v2" style="display: none;">
+    <label for="rotation-first-shift-v2">Starting Shift</label>
+    <select id="rotation-first-shift-v2">
+        <option value="">Choose starting shift...</option>
+        <option value="Day">Start on Day Shift</option>
+        <option value="Night">Start on Night Shift</option>
+    </select>
+</div>
+<!-- VERSION 2.0 — Rotation Start Date -->
+<label for="rotation-start-v2">Rotation Start Date</label>
+<input type="date" id="rotation-start-v2">
+<button id="apply-rotation-v2" type="button">Apply Rotation</button>
+    <button id="rotation-setup-close" type="button">Close</button>
+</div>
+                <!-- VERSION 2.0 — Day View -->
+<div id="day-view-v2">
+    <h3 id="day-view-title">Day View</h3>
+
+    <div id="day-view-events"></div>
+
+    <div class="day-view-actions">
+        <button id="day-view-add">+ Add Event</button>
+        <button id="day-view-close">Close</button>
+    </div>
+</div>
                 <div id="event-popup">
                 <h3 id="event-popup-title">Add Event</h3>
 

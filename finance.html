@@ -48,21 +48,64 @@
 
             <div id="calendar-grid"></div>
 
-        </section>
+<!-- Finance 2.0 — Bill Legend -->
+<div class="finance-legend">
 
-<!-- FINANCE JR. — Upcoming Bills -->
-
-<section class="upcoming-bills">
-
-    <h2>Coming Up</h2>
-
-    <div id="upcoming-bills-list">
-        <p class="upcoming-empty">No upcoming bills.</p>
+    <div class="legend-item">
+        <span class="legend-receipt legend-paid">
+            <svg viewBox="0 0 24 24" width="19" height="19"
+                 fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 3v18l4-2 4 2 4-2 4 2V3H4z"/>
+                <path d="M8 8h8M8 12h8M8 16h4"/>
+            </svg>
+        </span>
+        <span>Paid</span>
     </div>
 
-</section>
+    <div class="legend-item">
+        <span class="legend-receipt legend-unpaid">
+            <svg viewBox="0 0 24 24" width="19" height="19"
+                 fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 3v18l4-2 4 2 4-2 4 2V3H4z"/>
+                <path d="M8 8h8M8 12h8M8 16h4"/>
+            </svg>
+        </span>
+        <span>Unpaid</span>
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-more">+3</span>
+        <span>More bills</span>
+    </div>
+
+</div>
+
+
+        </section>
 </div>
     </main>
+
+
+<!-- FINANCE 2.0 — Bill Day View -->
+
+<div id="bill-day-popup" class="popup-overlay">
+    <div class="popup-content bill-day-content">
+
+        <h2 id="bill-day-title">Bills for This Day</h2>
+
+        <div id="bill-day-list"></div>
+
+        <div class="popup-buttons">
+            <button id="bill-day-add">+ Add Bill</button>
+            <button id="bill-day-close">Close</button>
+        </div>
+
+    </div>
+</div>
 
 
 <!-- FINANCE JR. — Add Bill Popup -->
