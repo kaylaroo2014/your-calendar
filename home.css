@@ -1,196 +1,391 @@
+
+/* =========================================
+   YOUR CALENDAR — DASHBOARD 2.0
+   Clean Monochrome Design
+========================================= */
+
+:root {
+    --background: #F5F5F6;
+    --card: #FFFFFF;
+    --text: #292929;
+    --secondary: #777B82;
+    --accent: #50545D;
+    --border: #E5E5E8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
-    background-color: #EBE5DF;
-    color: #343331;
+    background: var(--background);
+    color: var(--text);
     font-family: Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
+
+/* PAGE LAYOUT */
 
 .home-page {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 80px 40px;
+    padding: 70px 30px;
 }
 
+/* GREETING */
+
 .home-header {
-    text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 35px;
 }
 
 .home-header h1 {
-    font-size: 42px;
-    margin-bottom: 12px;
-    color: #77736F;
-}
-.home-header > p:not(#home-date) {
-    color: #77736f;
-    opacity: 0.85;
+    margin: 0 0 10px;
+    font-size: clamp(32px, 5vw, 46px);
+    font-weight: 600;
+    letter-spacing: -1.2px;
 }
 
-.home-header p {
-    font-size: 18px;
-    margin: 0;
-}
 #home-date {
-    margin-top: 4px;
-    font-size: 3.0rem;
-    font-weight: 500;
-    opacity: 0.65;
-    letter-spacing: 0.4px;
-}
-.dashboard {
-    background-color: #B8B2AC;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-}
-.home-cards {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-}
-.dashboard-bottom {
-    display: flex;
-    gap: 30px;
-    margin-top: 20px;
+    margin: 0;
+    font-size: 16px;
+    color: var(--secondary);
 }
 
+/* DASHBOARD GRID */
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.home-cards,
+.dashboard-bottom {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+/* ALL FOUR CARDS */
+
+.home-card,
 .weather-section,
 .coming-up-section {
-    flex: 1;
-    padding: 10px;
+    min-width: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.035);
 }
-.upcoming-event {
-    margin: 8px 0;
-    padding: 8px 10px;
-    background-color: rgba(255, 255, 255, 0.18);
-    border-radius: 6px;
-}
+
+/* NAVIGATION CARDS */
 
 .home-card {
-    flex: 1;
-    padding: 30px;
-    border-radius: 14px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.20);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 185px;
+    color: var(--text);
+    text-decoration: none;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
+
 .home-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.22);
-}
-.calendar-card {
-    background-color: #668B85;
-}
-.calendar-card a {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 8px 14px;
-    color: #343331;
-    text-decoration: none;
-    border: 1px solid #343331;
-    border-radius: 6px;
-    font-weight: bold;
-    background-color: #B8B2AC;
-}
-.calendar-card a:hover {
-    background-color: #A8A19A;
+    border-color: #C9CBD0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
 }
 
-.finance-card {
-    background-color: #807C91;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.20);
-}
-.finance-card a {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 8px 14px;
-    background-color: #B8B2AC;
-    border: 1px solid #343331;
-    border-radius: 6px;
-    font-weight: bold;
-    color: #343331;
-text-decoration: none;
-}
-#change-weather-location {
-    padding: 8px 14px;
-    background-color: #B8B2AC;
-    color: #343331;
-    border: 1px solid #343331;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
+.home-card:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
 }
 
-#change-weather-location:hover {
-    background-color: #A8A19A;
-    transition: background-color 0.18s ease;
+.card-icon {
+    font-size: 27px;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 22px;
 }
+
+.home-card h2 {
+    margin: 0 0 7px;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.home-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--secondary);
+}
+
+.card-arrow {
+    align-self: flex-end;
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 22px;
+    color: var(--accent);
+}
+
+/* WEATHER AND COMING UP */
+
+.weather-section h2,
+.coming-up-section h2 {
+    margin: 0 0 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .weather-location {
-    margin-bottom: 6px;
-    font-weight: bold;
+    margin: 0 0 10px;
+    color: var(--secondary);
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .weather-main {
-    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
 }
 
 .weather-temp {
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -1px;
 }
 
 .weather-conditions {
-    margin-left: 8px;
-    font-size: 16px;
+    font-size: 14px;
+    color: var(--secondary);
 }
 
+.weather-high-low,
 .weather-rain {
-    margin-top: 6px;
-    margin-bottom: 12px;
+    margin: 10px 0;
     font-size: 14px;
+    color: var(--secondary);
 }
-.weather-high-low {
-    margin: 6px 0;
-    font-size: 14px;
-    font-weight: bold;
-}
-#weather-error {
-    color: #8a4f55;
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 10px;
-}
-@media (max-width: 700px) {
 
+.weather-high-low {
+    font-weight: 600;
+    color: var(--text);
 }
-/* HOME — Mobile Layout */
+
+/* WEATHER ZIP SETUP */
+
+#weather-setup p {
+    font-size: 14px;
+    color: var(--secondary);
+    line-height: 1.5;
+}
+
+#weather-zip {
+    width: 130px;
+    max-width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #FAFAFB;
+    color: var(--text);
+    font-size: 14px;
+}
+
+#save-weather-zip,
+#change-weather-location {
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--background);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#save-weather-zip:hover,
+#change-weather-location:hover {
+    background: #E8E9EC;
+}
+
+#change-weather-location {
+    margin-top: 12px;
+}
+
+#weather-error {
+    margin: 10px 0;
+    color: #A04747;
+    font-size: 13px;
+}
+
+/* UPCOMING EVENTS */
+
+#upcoming-events {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.upcoming-event {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--background);
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* MOBILE */
+
 @media (max-width: 600px) {
+
+    .home-page {
+        padding: 35px 16px;
+    }
+
+    .home-header {
+        margin-bottom: 28px;
+    }
+
+    .home-header h1 {
+        font-size: 34px;
+    }
+
+    #home-date {
+        font-size: 14px;
+    }
+
+    .dashboard {
+        gap: 14px;
+    }
+
     .home-cards,
     .dashboard-bottom {
-        flex-direction: column;
+        gap: 12px;
     }
-    .home-page {
-    padding: 30px 16px;
+
+    .home-card {
+        min-height: 155px;
+        padding: 17px;
+        border-radius: 15px;
+    }
+
+    .card-icon {
+        margin-bottom: 18px;
+        font-size: 24px;
+    }
+
+    .home-card h2 {
+        font-size: 18px;
+    }
+
+    .home-card p {
+        font-size: 12px;
+    }
+
+    .weather-section,
+    .coming-up-section {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .dashboard-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+    .weather-section h2,
+    .coming-up-section h2 {
+        font-size: 19px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-card,
+    #save-weather-zip,
+    #change-weather-location {
+        transition: none;
+    }
+}
+/* Dashboard 2.0 — Sage Cards & Clock */
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+#home-clock {
+    color: #292929;
+    font-size: 26px;
+    font-weight: 500;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.home-card,
+.weather-section,
+.coming-up-section {
+    background: #EAF1EC;
+    border-color: #D7E3DA;
+}
+
+.card-icon,
+.card-arrow {
+    color: #647F70;
+}
+
+@media (max-width: 600px) {
+    .dashboard-bottom {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-card {
+        min-height: 140px;
+    }
+
+    #home-clock {
+        font-size: 22px;
+    }
+
+    .weather-section,
+    .coming-up-section {
+        padding: 14px;
+    }
+
+    .weather-temp {
+        font-size: 27px;
+    }
+
+    .weather-section h2,
+    .coming-up-section h2 {
+        font-size: 17px;
+    }
+}
+.card-arrow svg {
+    display: block;
+}
+
+.card-arrow {
+    color: #647F70;
+}
+/* Give the dashboard cards some breathing room */
 .home-header {
-    margin-bottom: 25px;
+    margin-bottom: 56px;
 }
 
-.home-header h1 {
-    font-size: 34px;
-    margin-top: 0;
-}
-
-#home-date {
-    font-size: 2rem;
-}
-
-.dashboard {
-    padding: 18px;
-}
-
-.home-card {
-    padding: 20px;
-}
+@media (max-width: 600px) {
+    .home-header {
+        margin-bottom: 56px;
+    }
 }

@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Your Calendar | Dashboard</title>
     <link rel="stylesheet" href="home.css">
 </head>
 
@@ -12,67 +13,86 @@
 
     <main class="home-page">
 
-        <div class="home-header">
-            <h1>Welcome!</h1>
-            <p>Everything you need to keep your schedule and finances organized in one place.</p>
-            <p id="home-date"></p>
-        </div>
-
-        <div class="dashboard">
-
-    <div class="home-cards">
-
-        <div class="home-card calendar-card">
-            <h2>My Calendar</h2>
-            <p>Manage your work schedule, events, and reminders.</p>
-            <a href="calendar.html">Open Calendar</a>
-        </div>
-
-        <div class="home-card finance-card">
-            <h2>My Finances</h2>
-            <p>Organize your bills and due dates.</p>
-            <a href="finance.html">Open Finances</a>
-        </div>
-
+        <header class="home-header">
+    <div class="header-top">
+        <h1 id="home-greeting">Good morning.</h1>
+        <div id="home-clock">--:--</div>
     </div>
+    <p id="home-date"></p>
+</header>
 
-    <div class="dashboard-bottom">
+        <section class="dashboard">
 
-        <div class="weather-section">
-    <h2>Today's Weather</h2>
+            <div class="home-cards">
 
-    <div id="weather-setup">
-        <p>Enter your ZIP code to see your local weather.</p>
+                <a class="home-card calendar-card" href="calendar.html">
+                    <div class="card-icon">▦</div>
+                    <h2>Calendar</h2>
+                    <p>Shifts &amp; events</p>
+                    <span class="card-arrow" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 17 17 7M7 7h10v10"/>
+    </svg>
+</span>
+                </a>
 
-        <input
-            type="text"
-            id="weather-zip"
-            placeholder="ZIP code"
-            maxlength="5"
-        >
+                <a class="home-card finance-card" href="finance.html">
+                    <div class="card-icon">▤</div>
+                    <h2>Finance</h2>
+                    <p>Bills &amp; payments</p>
+                    <span class="card-arrow" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 17 17 7M7 7h10v10"/>
+    </svg>
+</span>
+                </a>
 
-        <button id="save-weather-zip">Save</button>
-    </div>
-    
-    <p id="weather-error"></p>
+            </div>
 
-    <div id="weather-display"></div>
-    <button id="change-weather-location">Change Location</button>
-</div>
+            <div class="dashboard-bottom">
 
-        <div class="coming-up-section" id="coming-up">
-            <h2>Coming Up</h2>
-            <div id="upcoming-events"></div>
-        </div>
+                <section class="weather-section">
+                    <h2>Weather</h2>
 
-    </div>
+                    <div id="weather-setup">
+                        <p>Enter your ZIP code to see your local weather.</p>
 
-</div>
+                        <input
+                            type="text"
+                            id="weather-zip"
+                            placeholder="ZIP code"
+                            maxlength="5"
+                            inputmode="numeric"
+                        >
 
-</main>
+                        <button id="save-weather-zip">Save</button>
+                    </div>
 
-<script src="home.js"></script>
+                    <p id="weather-error"></p>
+
+                    <div id="weather-display"></div>
+
+                    <button id="change-weather-location">
+                        Change Location
+                    </button>
+                </section>
+
+                <section class="coming-up-section" id="coming-up">
+                    <h2>Coming Up</h2>
+                    <div id="upcoming-events"></div>
+                </section>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="home.js"></script>
 
 </body>
-
 </html>

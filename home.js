@@ -308,3 +308,39 @@ if (homeDate) {
         day: "numeric"
     });
 }
+function updateDashboardTime() {
+    const now = new Date();
+    const hour = now.getHours();
+
+    const greeting =
+        hour >= 5 && hour < 12 ? "Good morning." :
+        hour >= 12 && hour < 17 ? "Good afternoon." :
+        "Good evening.";
+
+    const greetingElement = document.getElementById("home-greeting");
+    const clockElement = document.getElementById("home-clock");
+    const dateElement = document.getElementById("home-date");
+
+    if (greetingElement) {
+        greetingElement.textContent = greeting;
+    }
+
+    if (clockElement) {
+        clockElement.textContent = now.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
+        });
+    }
+
+    if (dateElement) {
+        dateElement.textContent = now.toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric"
+        });
+    }
+}
+
+updateDashboardTime();
+setInterval(updateDashboardTime, 60000);
